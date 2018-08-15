@@ -1,0 +1,33 @@
+{
+  "name": "electron-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron . --allow-file-access-from-files",
+
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "author": "rapsealk",
+  "license": "ISC",
+
+  "build": {
+    "appId": "kr.co.ldcc.gcs",
+    "productName": "LDCC GCS",
+    "nsis": {
+      "installerIcon": "build/icon.ico",
+      "uninstallerIcon": "build/icon.ico"
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "publisherName": "Lotte Data Communication Company"
+    }
+  },
+
+  "devDependencies": {
+    "electron": "^2.0.7",
+    "electron-builder": "^20.28.1"
+  }
+}
