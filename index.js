@@ -9,6 +9,7 @@ let win;
 
 function createWindow() {
     win = new BrowserWindow({
+        title: "롯데정보통신 드론 관제",
         width: 800, height: 600,
         titleBarStyle: 'hidden',
         icon: path.join(__dirname, 'assets/icons/lotte.ico')

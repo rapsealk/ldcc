@@ -49,7 +49,7 @@
             }
             div#map {
                 width: 100%;
-                height: 400px;
+                height: 382px;
             }
             #logo {
 				position: absolute;
@@ -89,7 +89,9 @@
 		
         <!-- Daum Kakao Map -->
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339fc8af69d18e161455f9bd0e826127"></script>
-		<script>
+        <!-- http://apis.map.daum.net/web/sample/drawingUndo/ -->
+        <!--script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339fc8af69d18e161455f9bd0e826127&libraries=clusterer,drawing"></script-->
+        <script>
             var container = document.getElementById('map');
 			var options = {
 				center: new daum.maps.LatLng(33.450701, 126.570667),
@@ -100,21 +102,92 @@
             var uavIcon = new daum.maps.MarkerImage('http://localhost:3000/img/leader.png',
                 new daum.maps.Size(32, 32)
             );
-            var marker = new daum.maps.Marker({
+            var uav = new daum.maps.Marker({
                 map: map,
                 position: new daum.maps.LatLng(33.450701, 126.570667),
                 title: 'UAV',
                 image: uavIcon
             });
 
-            marker.setMap(map);
+            var markers = [uav];
             
-            jQuery(marker.md).css('transform', '');
-            jQuery(marker.md).css('transform', 'rotateZ(30deg)');
-            //document.getElementsByTagName('area').style('transform', 'rotateZ(30deg)');
-            //document.getElementsByClassName('md')[0].css('transform', 'rotateZ(30deg)');
-            //$(marker.md).css('transform', '');
-            //$(marker.md).css('transform', 'rotateZ(' + 30 + 'deg)');
-		</script>
+            jQuery(uav.md).css('transform', '');
+            jQuery(uav.md).css('transform', 'rotateZ(30deg)');
+        </script>
+        <!-- Menu -->
+        <script type="text/javascript">
+            const { remote } = require('electron');
+            const { Menu } = remote;
+
+            /* Drawing Manager (http://apis.map.daum.net/web/sample/drawingUndo/)
+            var managerOptions = {
+                map: map,
+                drawingMode: [daum.maps.Drawing.OverlayType.POLYLINE],
+                //
+                markerOptions: {
+                    draggable: true,
+                    removable: true
+                },
+                //
+                polylineOptions: {
+                    strokeColor: '#39F'
+                }
+            };
+            var manager = new daum.maps.Drawing.DrawingManager(managerOptions);
+            */
+
+            var polyline = null;
+            function drawPolyline() {
+                polyline = new daum.maps.Polyline({
+                    path: markers.map(marker => marker.getPosition()), // linepath,
+                    strokeWeight: 5,
+                    strokeColor: '#FFAE00',
+                    strokeOpacity: 0.7,
+                    strokeStyle: 'solid'    // 'dash'
+                });
+                polyline.setMap(map);
+            }
+
+            var isMapClickable = false;
+            function onMapClick(mouseEvent) {
+                var latlng = mouseEvent.latLng;
+                var marker = new daum.maps.Marker({
+                    position: latlng,
+                    draggable: true,
+                    map: map
+                });
+                markers.push(marker);
+
+                // Draw Line
+                drawPolyline();
+                
+                // Marker Drag-End Event
+                daum.maps.event.addListener(marker, 'dragend', function() {
+                    // TODO: re-plan
+                    drawPolyline();
+                });
+            }
+
+            const template = [
+                {
+                    label: '기능',
+                    submenu: [
+                        {
+                            label: '경로설정',
+                            accelerator: 'Ctrl+Shift+P',
+                            click: (item, focusedWindow) => {
+                                if (isMapClickable) daum.maps.event.removeListener(map, 'click', onMapClick);
+                                else daum.maps.event.addListener(map, 'click', onMapClick);
+                                isMapClickable = !isMapClickable;
+                            }
+                        }
+                    ]
+                }
+            ];
+
+            const menu = Menu.buildFromTemplate(template);
+
+            Menu.setApplicationMenu(menu);
+        </script>
     </body>
 </html>
