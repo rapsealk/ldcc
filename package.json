@@ -6,13 +6,11 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron . --allow-file-access-from-files",
-
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
   "author": "rapsealk",
   "license": "ISC",
-
   "build": {
     "appId": "kr.co.ldcc.gcs",
     "productName": "LDCC GCS",
@@ -23,11 +21,20 @@
     "win": {
       "icon": "build/icon.ico",
       "publisherName": "Lotte Data Communication Company"
-    }
+    },
+    "directories": {
+      "buildResources": "resources"
+    },
+    "extraFiles": [
+      "public"
+    ]
   },
-
   "devDependencies": {
     "electron": "^2.0.7",
     "electron-builder": "^20.28.1"
+  },
+  "dependencies": {
+    "express": "^4.16.3",
+    "morgan": "^1.9.0"
   }
 }

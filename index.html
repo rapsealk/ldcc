@@ -1,96 +1,128 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <title>Hello Electron!</title>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Hello Electron!</title>
 
-        <!-- Bootstrap -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-        <!--
-            video {
-                width: 100%;
-                height: auto;
-            }
-        -->
-        <style>
-            html, body {
-                margin: 0; height: 100%; overflow: hidden;
-            }
-            #logo {
-                position: absolute;
-                right: 5px;
-                bottom: 5px;
-            }
-            .video-wrapper {
-                box-sizing: border-box;
-                float: left;
-                margin-bottom: 5px;
-                width: 50%;
-            }
-            .video-wrapper:nth-child(even) {
-                padding-left: 5px;
-            }
-            .video-wrapper:nth-child(odd) {
-                padding-right: 5px;
-            }
-            .video-wrapper > video {
-                width: 100%;
-            }
-            .video-wrapper > span {
-                display: inline-block;
-                text-align: center;
-                width: 100%;
-            }
-        </style>
-    </head>
-    <body>
-        <div>
-            <!--
-            <h1>Hello Electron!</h1>
-            node <script>document.write(process.version);</script>,
-            chrome <script>document.write(process.versions.chrome);</script>,
-            electron <script>document.write(process.versions.electron);</script>
-            -->
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<!--
+			video {
+				width: 100%;
+				height: auto;
+			}
+		-->
+		<style>
+			/*
+			#map {
+				height: 400px;
+				width: 100%;
+			}
+			*/
+			html, body {
+				margin: 0; height: 100%; /*overflow: hidden;*/
+				padding: 0;
+			}
+			#logo {
+				position: absolute;
+				right: 5px;
+				bottom: 5px;
+			}
+			.video-wrapper {
+				box-sizing: border-box;
+				float: left;
+				margin-bottom: 5px;
+				width: 50%;
+			}
+			.video-wrapper:nth-child(even) {
+				padding-left: 5px;
+			}
+			.video-wrapper:nth-child(odd) {
+				padding-right: 5px;
+			}
+			.video-wrapper > video {
+				width: 100%;
+			}
+			.video-wrapper > span {
+				display: inline-block;
+				text-align: center;
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<!--
+			<h1>Hello Electron!</h1>
+			node <script>document.write(process.version);</script>,
+			chrome <script>document.write(process.versions.chrome);</script>,
+			electron <script>document.write(process.versions.electron);</script>
+			-->
 
-            <div id="logo">
-                <img src="file:///./resources/img/lotte_dc_ci.png">
-            </div>
+			<div id="logo">
+				<img src="file:///./resources/img/lotte_dc_ci.png">
+			</div>
 
-            <div class="video-wrapper">
-                <video autoplay><!-- controls -->
-                    <source src="http://localhost:3000/TT.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <span>UAV 01</span>
-            </div>
-            <div class="video-wrapper">
-                <video autoplay><!-- controls -->
-                    <source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <span>UAV 02</span>
-            </div>
-            <div class="video-wrapper">
-                <video autoplay><!-- controls -->
-                    <source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <span>UAV 03</span>
-            </div>
-            <div class="video-wrapper">
-                <video autoplay><!-- controls -->
-                    <source src="http://localhost:3000/LoveU.mp4" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                <span>Google Map</span>
-            </div>
-        </div>
-    
-        <!-- Bootstrap -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    
-    </body>
+			<div class="video-wrapper">
+				<video autoplay><!-- controls -->
+					<source src="http://localhost:3000/TT.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+				<span>UAV 01</span>
+			</div>
+			<div class="video-wrapper">
+				<video autoplay><!-- controls -->
+					<source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+				<span>UAV 02</span>
+			</div>
+			<div class="video-wrapper">
+				<video autoplay><!-- controls -->
+					<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+				<span>UAV 03</span>
+			</div>
+			<div class="video-wrapper">
+				<!--video autoplay>
+					<source src="http://localhost:3000/LoveU.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video-->
+				<!--img src="file:///./resources/img/sample.PNG"-->
+				<div id="map" style="width:500px;height:400px;"></div>
+				<span>Google Map</span>
+			</div>
+		</div>
+
+		<!-- Daum Kakao Map -->
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339fc8af69d18e161455f9bd0e826127"></script>
+		<script>
+			var container = document.getElementById('map');
+			var options = {
+				center: new daum.maps.LatLng(33.450701, 126.570667),
+				level: 3
+			};
+			var map = new daum.maps.Map(container, options);
+		</script>
+
+		<!-- Google Map >
+		<script>
+			var map;
+			function initMap() {
+				map = new google.maps.Map(document.getElementById('map'), {
+					center: { lat: -34.397, lng: 150.644 },
+					zoom: 8
+				});
+			}
+		</script>
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDbLkDbSuw-kWT8x4KzBHseJKbS_cGsbHM&callback=initMap"></script-->
+	
+		<!-- Bootstrap -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+	
+	</body>
 </html>

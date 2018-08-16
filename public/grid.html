@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <style>
+            * {
+                -webkit-box-sizing: border-box;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+            }
+            
+            html, body {
+                height: 100%;
+                width: 100%;
+            }
+            
+            div.uav-video, div.uav-map {
+                width: 50%;
+                height: 50%;
+                float: left;
+            }
+            
+            div.uav-video:nth-of-type(1) {
+                background: #ccc;
+            }
+            
+            div.uav-video:nth-of-type(2) {
+                background: #bbb;
+                border-left: 1px solid #f00;
+            }
+            
+            div.uav-video:nth-of-type(3) {
+                background: #aaa;
+                border-top: 1px solid #f00;
+            }
+            
+            /*
+            div:not(#map):nth-of-type(4) {
+                background: #ddd;
+                border-top: 1px solid #f00;
+                border-left: 1px solid #f00;
+            }
+            */
+            div.uav-video > video {
+                width: 100%;
+                height: 100%;
+            }
+            div#map {
+                width: 100%;
+                height: 400px;
+            }
+            #logo {
+				position: absolute;
+				right: 5px;
+				bottom: 5px;
+                z-index: 9;
+			}
+        </style>
+    </head>
+    <body>
+
+        <img id="logo" src="/img/lotte_dc_ci.png">
+        
+        <div class="uav-video">
+            <video autoplay><!-- controls -->
+                <source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="uav-video">
+            <video autoplay><!-- controls -->
+                <source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="uav-video">
+            <video autoplay><!-- controls -->
+                <source src="http://localhost:3000/LoveU.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="uav-map">
+            <div id="map"></div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		
+        <!-- Daum Kakao Map -->
+		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339fc8af69d18e161455f9bd0e826127"></script>
+		<script>
+            var container = document.getElementById('map');
+			var options = {
+				center: new daum.maps.LatLng(33.450701, 126.570667),
+				level: 3
+			};
+            var map = new daum.maps.Map(container, options);
+
+            var uavIcon = new daum.maps.MarkerImage('http://localhost:3000/img/leader.png',
+                new daum.maps.Size(32, 32)
+            );
+            var marker = new daum.maps.Marker({
+                map: map,
+                position: new daum.maps.LatLng(33.450701, 126.570667),
+                title: 'UAV',
+                image: uavIcon
+            });
+
+            marker.setMap(map);
+            
+            jQuery(marker.md).css('transform', '');
+            jQuery(marker.md).css('transform', 'rotateZ(30deg)');
+            //document.getElementsByTagName('area').style('transform', 'rotateZ(30deg)');
+            //document.getElementsByClassName('md')[0].css('transform', 'rotateZ(30deg)');
+            //$(marker.md).css('transform', '');
+            //$(marker.md).css('transform', 'rotateZ(' + 30 + 'deg)');
+		</script>
+    </body>
+</html>
