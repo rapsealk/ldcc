@@ -17,7 +17,7 @@ function createWindow() {
     // win = new BrowserWindow({ width: 1920, height: 1080 });
    
     win.loadURL(url.format({
-        pathname: 'localhost:3000/grid.html',
+        pathname: 'localhost:3000/index.html',
         protocol: 'http:',
         slashes: true
     }));
