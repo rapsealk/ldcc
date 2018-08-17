@@ -9,11 +9,11 @@
     "pack": "electron-builder --dir",
     "dist": "electron-builder"
   },
-  "author": "rapsealk",
+  "author": "Lotte Data Communication Company",
   "license": "ISC",
   "build": {
     "appId": "kr.co.ldcc.gcs",
-    "productName": "LDCC GCS",
+    "productName": "롯데정보통신 드론 관제",
     "nsis": {
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico"
