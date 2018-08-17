@@ -20,6 +20,7 @@
                 width: 50%;
                 height: 50%;
                 float: left;
+                position: relative;
             }
             
             div.uav-video:nth-of-type(1) {
@@ -57,25 +58,40 @@
 				bottom: 5px;
                 z-index: 9;
 			}
+            .uav-tag {
+                color: white;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+                font-size: 18px;
+                font-weight: bold;
+                margin-top: 8px;
+                margin-left: 8px;
+                width: auto;
+                display: block;
+                position: absolute;
+                z-index: 5;
+            }
         </style>
     </head>
     <body>
 
         <img id="logo" src="/img/lotte_dc_ci.png">
-        
+
         <div class="uav-video">
+            <div class="uav-tag" style="pointer-events: none;">UAV 1</div>
             <video autoplay><!-- controls -->
                 <source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="uav-video">
+            <div class="uav-tag" style="pointer-events: none;">UAV 2</div>
             <video autoplay><!-- controls -->
                 <source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
         </div>
         <div class="uav-video">
+            <div class="uav-tag" style="pointer-events: none;">UAV 3</div>
             <video autoplay><!-- controls -->
                 <source src="http://localhost:3000/LoveU.mp4" type="video/mp4">
                 Your browser does not support the video tag.
@@ -88,9 +104,8 @@
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		
         <!-- Daum Kakao Map -->
-		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339fc8af69d18e161455f9bd0e826127"></script>
         <!-- http://apis.map.daum.net/web/sample/drawingUndo/ -->
-        <!--script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339fc8af69d18e161455f9bd0e826127&libraries=clusterer,drawing"></script-->
+        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=339fc8af69d18e161455f9bd0e826127&libraries=drawing"></script>
         <script>
             var container = document.getElementById('map');
 			var options = {
@@ -111,15 +126,15 @@
 
             var markers = [uav];
             
-            jQuery(uav.md).css('transform', '');
-            jQuery(uav.md).css('transform', 'rotateZ(30deg)');
+            //jQuery(uav.md).css('transform', '');
+            //jQuery(uav.md).css('transform', 'rotateZ(30deg)');
         </script>
         <!-- Menu -->
         <script type="text/javascript">
             const { remote } = require('electron');
             const { Menu } = remote;
 
-            /* Drawing Manager (http://apis.map.daum.net/web/sample/drawingUndo/)
+            // Drawing Manager (http://apis.map.daum.net/web/sample/drawingUndo/)
             var managerOptions = {
                 map: map,
                 drawingMode: [daum.maps.Drawing.OverlayType.POLYLINE],
@@ -130,14 +145,35 @@
                 },
                 //
                 polylineOptions: {
-                    strokeColor: '#39F'
+                    strokeColor: '#39F',
+                    draggable: true,
+                    removable: false,
+                    editable: true
                 }
             };
             var manager = new daum.maps.Drawing.DrawingManager(managerOptions);
-            */
+
+            // 그리기 요소의 생성/수정/이동/삭제
+            manager.addListener('state_changed', function() {
+
+                alert(`state_changed { undoable: ${manager.undoable()}, redoable: ${manager.redoable()} }`);
+                
+                if (manager.undoable()) {
+                    // enable undo button
+                } else {
+                    // disable undo button
+                }
+
+                if (manager.redoable()) {
+                    // enable redo button
+                } else {
+                    // disable redo button
+                }
+            });
 
             var polyline = null;
             function drawPolyline() {
+                // manager.undo();
                 polyline = new daum.maps.Polyline({
                     path: markers.map(marker => marker.getPosition()), // linepath,
                     strokeWeight: 5,
