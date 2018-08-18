@@ -26,7 +26,7 @@
                 <!--source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video-->
-            <img id="uav-video" src="">
+            <img id="uav-video" src="" alt="UAV 01 not loaded properly.">
         </div>
         <div class="uav-video">
             <div class="uav-details">
@@ -110,6 +110,7 @@
             const { Menu } = remote;
 
             // Drawing Manager (http://apis.map.daum.net/web/sample/drawingUndo/)
+            /*
             var managerOptions = {
                 map: map,
                 drawingMode: [daum.maps.Drawing.OverlayType.POLYLINE],
@@ -145,10 +146,13 @@
                     // disable redo button
                 }
             });
+            */
 
             var polyline = null;
             function drawPolyline() {
-                // manager.undo();
+                if (polyline !== null) {
+                    polyline.setMap(null);
+                }
                 polyline = new daum.maps.Polyline({
                     path: markers.map(marker => marker.getPosition()), // linepath,
                     strokeWeight: 5,
@@ -165,6 +169,7 @@
                 var marker = new daum.maps.Marker({
                     position: latlng,
                     draggable: true,
+                    clickable: true,
                     map: map
                 });
                 markers.push(marker);
@@ -173,10 +178,18 @@
                 drawPolyline();
                 
                 // Marker Drag-End Event
-                daum.maps.event.addListener(marker, 'dragend', function() {
-                    // TODO: re-plan
-                    drawPolyline();
+                daum.maps.event.addListener(marker, 'click', function() {
+                    // TODO: Update Layout
+                    const infoWindowContent = `
+                        <div style="padding: 5px;">Hello World!</div>
+                    `;
+                    const infoWindow = new daum.maps.InfoWindow({
+                        content: infoWindowContent,
+                        removable: true
+                    });
+                    infoWindow.open(map, marker);
                 });
+                daum.maps.event.addListener(marker, 'dragend', drawPolyline);
             }
 
             const template = [
@@ -193,6 +206,28 @@
                             }
                         },
                         {
+                            label: '경로전달',
+                            accelerator: 'Ctrl+Shift+R',
+                            click: (item, focusedWindow) => {
+                                vex.dialog.confirm({
+                                    message: '경로를 전달하시겠습니까?',
+                                    callback: value => {
+                                        if (value === false) return;
+                                        const path = markers.map(marker => {
+                                            const position = marker.getPosition();
+                                            return {
+                                                latitude: position.getLat(),
+                                                longitude: position.getLng()
+                                            };
+                                        });
+                                        console.log(path);
+                                        vex.dialog.alert(JSON.stringify(path));
+                                        console.log(path[0]);
+                                    }
+                                });
+                            }
+                        },
+                        {
                             label: '개발자도구',
                             role: 'toggleDevTools'
                         }
@@ -203,6 +238,25 @@
             const menu = Menu.buildFromTemplate(template);
 
             Menu.setApplicationMenu(menu);
+
+            // Geolocation
+            console.log('navigator.geolocation:', navigator.geolocation);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(position => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    console.log(`lat: ${lat}, lon: ${lon}`);
+
+                    // Move map to current location
+                    map.setCenter(
+                        new daum.maps.LatLng(lat, lon)
+                    );
+                }, error => {
+                    console.log('error:', error);
+                });
+            } else {
+                console.log('navigator.geolocation not found.');
+            }
         </script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow/*, session*/ } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -8,6 +8,9 @@ const backend = require('./server');
 let win;
 
 function createWindow() {
+
+    process.env.GOOGLE_API_KEY = 'AIzaSyCFoLMaySYpiZgo17QeLISN8l8-bt9wnn0';
+
     win = new BrowserWindow({
         title: "롯데정보통신 드론 관제",
         width: 800, height: 600,
@@ -15,6 +18,23 @@ function createWindow() {
         icon: path.join(__dirname, 'assets/icons/lotte.ico')
     });
     // win = new BrowserWindow({ width: 1920, height: 1080 });
+
+    // Request Permissions (https://electronjs.org/docs/all#sessetpermissionrequesthandlerhandler)
+    /*
+    session.fromPartition('geolocation').setPermissionRequestHandler((webContents, permission, callback) => {
+        if (// webContents.getURL() === 'some-host' &&
+            permission === 'geolocation') {
+            return callback(false);
+        }
+        callback(true); // permissionGranted
+    });
+    */
+    /*
+    win.webContents.session.setCertificateVerifyProc((request, callback) => {
+        const { hostname } = request;
+        console.log('hostname:', hostname);
+    });
+    */
    
     win.loadURL(url.format({
         pathname: 'localhost:3000/index.html',
