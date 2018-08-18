@@ -37,7 +37,8 @@ div:not(#map):nth-of-type(4) {
     border-left: 1px solid #f00;
 }
 */
-div.uav-video > video {
+div.uav-video > video,
+div.uav-video > img {
     width: 100%;
     height: 100%;
 }

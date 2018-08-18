@@ -22,10 +22,11 @@
                 <div class="uav-angle">angle: 32 degree</div>
                 <div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
             </div>
-            <video autoplay><!-- controls -->
-                <source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
+            <!--video autoplay--><!-- autoplay/controls -->
+                <!--source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
                 Your browser does not support the video tag.
-            </video>
+            </video-->
+            <img id="uav-video" src="">
         </div>
         <div class="uav-video">
             <div class="uav-details">
@@ -33,7 +34,7 @@
                 <div class="uav-angle">angle: 32 degree</div>
                 <div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
             </div>
-            <video autoplay><!-- controls -->
+            <video autoplay>
                 <source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -44,7 +45,7 @@
                 <div class="uav-angle">angle: 32 degree</div>
                 <div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
             </div>
-            <video autoplay><!-- controls -->
+            <video autoplay>
                 <source src="http://localhost:3000/LoveU.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
@@ -190,6 +191,10 @@
                                 else daum.maps.event.addListener(map, 'click', onMapClick);
                                 isMapClickable = !isMapClickable;
                             }
+                        },
+                        {
+                            label: '개발자도구',
+                            role: 'toggleDevTools'
                         }
                     ]
                 }
