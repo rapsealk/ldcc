@@ -87,7 +87,10 @@
 			var map = new daum.maps.Map(container, options);
 
 			var uavIcon = new daum.maps.MarkerImage('http://localhost:3000/img/leader.png',
-				new daum.maps.Size(32, 32)
+				new daum.maps.Size(32, 32),
+				{
+					offset: new daum.maps.Point(16, 16)
+				}
 			);
 			var uav = new daum.maps.Marker({
 				map: map,
@@ -95,6 +98,34 @@
 				title: 'UAV 1',
 				image: uavIcon
 			});
+
+			/*
+			var leaderViewAngleIcon = new daum.maps.MarkerImage('http://localhost:3000/img/view_angle.png',
+				new daum.maps.Size(84, 84)
+			);
+			var leaderViewAngle = new daum.maps.Marker({
+				map: map,
+				position: new daum.maps.LatLng(33.450701, 126.570667),
+				image: leaderViewAngleIcon
+			});
+			*/
+			var leaderViewAnglePoints = [
+				new daum.maps.LatLng(33.450701, 126.570667),
+				new daum.maps.LatLng(33.450701 + 0.0001, 126.570667 - 0.000125),
+				new daum.maps.LatLng(33.450701 + 0.0001, 126.570667 + 0.000125)
+			];
+			var leaderViewAngle = new daum.maps.Polygon({
+				path: leaderViewAnglePoints,
+				strokeWeight: 3,
+				strokeColor: '#CCFFCC',
+				strokeOpacity: 0.75,
+				strokeStyle: 'solid',
+				fillColor: '#99CC99',
+				fillOpacity: 0.5
+			});
+			leaderViewAngle.setMap(map);
+			// leaderViewAngle.md.style.transform = 'rotate(90deg)';
+			console.log('leaderViewAngle:', leaderViewAngle);
 
 			var followerIcon = new daum.maps.MarkerImage('http://localhost:3000/img/follower.png',
 				new daum.maps.Size(32, 32)
