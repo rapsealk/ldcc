@@ -126,10 +126,7 @@
 			tracker.forEach(it => it.run());
 			*/
 
-			var markers = [uav];
-			
-			// Rotate
-			// uav.md.style.transform = "rotate(30deg)";
+			const markers = [];
 		</script>
 		<!-- Menu -->
 		<script type="text/javascript">
@@ -180,8 +177,10 @@
 				if (polyline !== null) {
 					polyline.setMap(null);
 				}
+				const linepath = markers.map(marker => marker.getPosition());
+				linepath.splice(0, 0, uav.getPosition());
 				polyline = new daum.maps.Polyline({
-					path: markers.map(marker => marker.getPosition()), // linepath,
+					path: linepath,
 					strokeWeight: 5,
 					strokeColor: '#FFAE00',
 					strokeOpacity: 0.7,
@@ -262,6 +261,7 @@
 			}
 
 			function updateUAVAngle(uav/*: daum.maps.Marker*/, angle) {
+				// Rotate
 				uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
 			}
 
@@ -277,13 +277,16 @@
 				}
 
 				let index = 0;
-				const goalIndex = markers.length - 1;
+				const goalIndex = markers.length;
 
-				let from = markers[index];
-				let to = markers[index+1];
+				const _upos = uav.getPosition();
+				const startPosition = new daum.maps.LatLng(_upos.getLat(), _upos.getLng());
 
-				let fpos = from.getPosition();
-				let tpos = to.getPosition();
+				const linepath = markers.map(marker => marker.getPosition());
+				linepath.splice(0, 0, startPosition);
+
+				let fpos = linepath[index];
+				let tpos = linepath[index+1];
 
 				fpos = new daum.maps.LatLng(fpos.getLat(), fpos.getLng());
 				tpos = new daum.maps.LatLng(tpos.getLat(), tpos.getLng());
@@ -291,7 +294,6 @@
 				updateUAVAngle(uav, calcAngle(fpos, tpos));
 
 				let count = 0;
-				let startPosition = null;
 				let polylines = [];
 
 				const movementInterval = setInterval(() => {
@@ -312,24 +314,22 @@
 					uav.setPosition(new daum.maps.LatLng(upos.getLat() + dx, upos.getLng() + dy));
 
 					// TODO: 점선/실선 업데이트 =====================================================================================================
-					// append: [].splice(index, 0, ELEMENT);
+					// append: [].splice(index, 0, ELEMENT); (!!do not assign!!)
 					// remove: [].splice(index, count);
-					const linepath = markers.map(marker => marker.getPosition());
 					const linepath1 = linepath.slice(0, index+1);
+					linepath1.splice(0, 0, startPosition);
 					linepath1.push(uav.getPosition());
 					const linepath2 = [uav.getPosition()].concat(linepath.slice(index+1));
+					
 					polylines.forEach(line => line.setMap(null));
-					polylines = [];
-					polylines.push(
+					polylines = [
 						new daum.maps.Polyline({
 							path: linepath1,
 							strokeWeight: 5,
 							strokeColor: '#FFAE00',
 							strokeOpacity: 0.7,
 							strokeStyle: 'solid'
-						})
-					);
-					polylines.push(
+						}),
 						new daum.maps.Polyline({
 							path: linepath2,
 							strokeWeight: 5,
@@ -337,7 +337,7 @@
 							strokeOpacity: 0.7,
 							strokeStyle: 'dash'
 						})
-					);
+					];
 					polylines.forEach(line => line.setMap(map));
 					// ==============================================================================================================================
 
@@ -346,12 +346,9 @@
 						count = 0;
 					// if (upos.getLat() + Number.EPSILON == tpos.getLat()) {
 						index += 1;
-						from = to;
 						fpos = tpos;
-						to = markers[index+1];
 						// TODO: 도착했을 때 tpos가 존재하지 않아서 NullPointerException 발생
-						tpos = to.getPosition();
-						tpos = new daum.maps.LatLng(tpos.getLat(), tpos.getLng());
+						if (index < goalIndex) tpos = linepath[index+1];
 
 						updateUAVAngle(uav, calcAngle(fpos, tpos));
 
