@@ -236,6 +236,7 @@
 				daum.maps.event.addListener(marker, 'click', function() {
 					// TODO: Update Layout
 					const index = markers.indexOf(marker);
+					// TODO: build a DOM (createElement)
 					const infoWindowContent = `
 						<form style="padding: 10px;">
 							<div class="form-group">
@@ -263,6 +264,9 @@
 			// TODO: drone move test
 			function moveTest() {
 
+				// 잠시 경로 삭제
+				if (polyline !== null) polyline.setMap(null);
+
 				if (markers.length < 3) {
 					vex.dialog.alert('2개 이상의 경유지가 필요합니다.');
 					return;
@@ -288,6 +292,8 @@
 				console.log('transform:', uav.md.style.transform);
 
 				let count = 0;
+				let tempmarker = null;
+				let polylines = [];
 
 				const movementInterval = setInterval(() => {
 
@@ -296,6 +302,9 @@
 					if (index == goalIndex) {
 						vex.dialog.alert('Reached to goal!');
 						clearInterval(movementInterval);
+
+						// TODO: 경로 복구(?)
+						if (polyline !== null) polyline.setMap(map);
 					}
 					/*
 					const from = markers[index];
@@ -309,6 +318,57 @@
 
 					let upos = uav.getPosition();
 					uav.setPosition(new daum.maps.LatLng(upos.getLat() + dx, upos.getLng() + dy));
+
+					// TODO: 점선/실선 업데이트 =====================================================================================================
+					// [].splice(index, 0, ELEMENT);
+					// [].splice(index, count);
+					const linepath = markers.map(marker => marker.getPosition());
+					// if (polyline !== null) polyline.setMap(null);
+					/*
+					if (tempmarker !== null) tempmarker.setMap(null);
+					tempmarker = new daum.maps.Marker({
+						position: uav.getPosition(),
+						map: map
+					});
+					*/
+					// linepath.splice(index+1, 0, tempmarker);
+					const linepath1 = linepath.slice(0, index+1);
+					//linepath1.push(tempmarker);
+					//const linepath2 = linepath.slice(index+1);
+					linepath1.push(uav.getPosition());
+					const linepath2 = [uav.getPosition()].concat(linepath.slice(index+1));
+					/*
+					polyline = new daum.maps.Polyline({
+						path: linepath,
+						strokeWeight: 5,
+						strokeColor: '#FFAE00',
+						strokeOpacity: 0.7,
+						strokeStyle: 'solid'    // 'dash'
+					});
+					polyline.setMap(map);
+					*/
+					polylines.forEach(line => line.setMap(null));
+					polylines = [];
+					polylines.push(
+						new daum.maps.Polyline({
+							path: linepath1,//.map(marker => marker.getPosition()),
+							strokeWeight: 5,
+							strokeColor: '#FFAE00',
+							strokeOpacity: 0.7,
+							strokeStyle: 'solid'    // 'dash'
+						})
+					);
+					polylines.push(
+						new daum.maps.Polyline({
+							path: linepath2,//.map(marker => marker.getPosition()),
+							strokeWeight: 5,
+							strokeColor: '#FFAE00',
+							strokeOpacity: 0.7,
+							strokeStyle: 'dash'
+						})
+					);
+					polylines.forEach(line => line.setMap(map));
+					// ==============================================================================================================================
 
 					upos = uav.getPosition();
 					if (count == 5) {
@@ -345,7 +405,7 @@
 
 			const template = [
 				{
-					label: '기능',
+					label: '설정',
 					submenu: [
 						{
 							label: '경로설정',
@@ -382,6 +442,7 @@
 								});
 							}
 						},
+						// TODO: debug/non release
 						{
 							label: '개발자도구',
 							role: 'toggleDevTools'

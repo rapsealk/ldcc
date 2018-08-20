@@ -13,7 +13,7 @@
   "license": "ISC",
   "build": {
     "appId": "kr.co.ldcc.gcs",
-    "productName": "롯데정보통신 드론 관제",
+    "productName": "롯데정보통신 드론관제시스템",
     "nsis": {
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico"
