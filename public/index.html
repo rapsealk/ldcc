@@ -86,7 +86,7 @@
 			};
 			var map = new daum.maps.Map(container, options);
 
-			var uavIcon = new daum.maps.MarkerImage('http://localhost:3000/img/leader.png',
+			var uavIcon = new daum.maps.MarkerImage('http://localhost:3000/img/leader.gif',
 				new daum.maps.Size(32, 32),
 				{
 					offset: new daum.maps.Point(16, 16)
@@ -99,35 +99,7 @@
 				image: uavIcon
 			});
 
-			/*
-			var leaderViewAngleIcon = new daum.maps.MarkerImage('http://localhost:3000/img/view_angle.png',
-				new daum.maps.Size(84, 84)
-			);
-			var leaderViewAngle = new daum.maps.Marker({
-				map: map,
-				position: new daum.maps.LatLng(33.450701, 126.570667),
-				image: leaderViewAngleIcon
-			});
-			*/
-			var leaderViewAnglePoints = [
-				new daum.maps.LatLng(33.450701, 126.570667),
-				new daum.maps.LatLng(33.450701 + 0.0001, 126.570667 - 0.000125),
-				new daum.maps.LatLng(33.450701 + 0.0001, 126.570667 + 0.000125)
-			];
-			var leaderViewAngle = new daum.maps.Polygon({
-				path: leaderViewAnglePoints,
-				strokeWeight: 3,
-				strokeColor: '#FF2222',
-				strokeOpacity: 0.75,
-				strokeStyle: 'solid',
-				fillColor: '#BB2222',
-				fillOpacity: 0.5
-			});
-			leaderViewAngle.setMap(map);
-			// leaderViewAngle.md.style.transform = 'rotate(90deg)';
-			console.log('leaderViewAngle:', leaderViewAngle);
-
-			var followerIcon = new daum.maps.MarkerImage('http://localhost:3000/img/follower.png',
+			var followerIcon = new daum.maps.MarkerImage('http://localhost:3000/img/follower.gif',
 				new daum.maps.Size(32, 32)
 			);
 			var follower1 = new daum.maps.Marker({
@@ -236,7 +208,35 @@
 				daum.maps.event.addListener(marker, 'click', function() {
 					// TODO: Update Layout
 					const index = markers.indexOf(marker);
-					// TODO: build a DOM (createElement)
+					/* TODO: build a DOM (createElement)
+					const formNode = document.createElement("form");
+					// TODO: padding not works
+					formNode.style.padding = 10;
+					const divNode = document.createElement("div");
+					divNode.className = "form-group";
+					const labelNode = document.createElement("label");
+					labelNode.setAttribute("for", "time-expected");
+					labelNode.innerText = "이동 시간";
+					const inputNode = document.createElement("input");
+					inputNode.type = "number";
+					inputNode.className = "form-control";
+					inputNode.id = "time-expected";
+					inputNode.setAttribute("aria-describedby", "timeHelp");
+					inputNode.placeholder = "5";
+					const smallNode = document.createElement("small");
+					smallNode.id = "timeHelp";
+					smallNode.className = "form-text text-muted";
+					smallNode.innerText = "희망 시간을 입력하세요.(s)";
+					divNode.appendChild(labelNode);
+					divNode.appendChild(inputNode);
+					divNode.appendChild(smallNode);
+					const buttonNode = document.createElement("button");
+					buttonNode.type = "button";
+					buttonNode.className = "btn btn-sm btn-primary";
+					buttonNode.innerText = "업데이트";
+					formNode.appendChild(divNode);
+					formNode.appendChild(buttonNode);
+					*/
 					const infoWindowContent = `
 						<form style="padding: 10px;">
 							<div class="form-group">
@@ -247,18 +247,22 @@
 							<button type="button" class="btn btn-sm btn-primary">업데이트</button>
 						</form>
 					`;
-					/*
-					const infoWindowContent = `
-						<div style="padding: 5px;">Hello World!</div>
-					`;
-					*/
 					const infoWindow = new daum.maps.InfoWindow({
-						content: infoWindowContent,
+						content: infoWindowContent,	// formNode.outerHTML
 						removable: true
 					});
 					infoWindow.open(map, marker);
 				});
 				daum.maps.event.addListener(marker, 'dragend', drawPolyline);
+			}
+
+			function calcAngle(from/*: daum.maps.LatLng*/, to/*: daum.maps.LatLng*/) {
+				const angle = Math.atan2(from.getLng() - to.getLng(), from.getLat() - to.getLat());
+				return (angle * (180 / Math.PI) + 180) % 360;
+			}
+
+			function updateUAVAngle(uav/*: daum.maps.Marker*/, angle) {
+				uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
 			}
 
 			// TODO: drone move test
@@ -284,15 +288,10 @@
 				fpos = new daum.maps.LatLng(fpos.getLat(), fpos.getLng());
 				tpos = new daum.maps.LatLng(tpos.getLat(), tpos.getLng());
 
-				let angle = Math.atan2(fpos.getLng() - tpos.getLng(), fpos.getLat() - tpos.getLat());
-				angle = (angle * (180 / Math.PI) + 360) % 360;
-				console.log('angle:', angle);
-				console.log('transform:', uav.md.style.transform);
-				uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
-				console.log('transform:', uav.md.style.transform);
+				updateUAVAngle(uav, calcAngle(fpos, tpos));
 
 				let count = 0;
-				let tempmarker = null;
+				let startPosition = null;
 				let polylines = [];
 
 				const movementInterval = setInterval(() => {
@@ -306,13 +305,6 @@
 						// TODO: 경로 복구(?)
 						if (polyline !== null) polyline.setMap(map);
 					}
-					/*
-					const from = markers[index];
-					const to = markers[index+1];
-
-					const fpos = from.getPosition();
-					const tpos = to.getPosition();
-					*/
 					const dx = (tpos.getLat() - fpos.getLat()) / 5;
 					const dy = (tpos.getLng() - fpos.getLng()) / 5;
 
@@ -320,47 +312,26 @@
 					uav.setPosition(new daum.maps.LatLng(upos.getLat() + dx, upos.getLng() + dy));
 
 					// TODO: 점선/실선 업데이트 =====================================================================================================
-					// [].splice(index, 0, ELEMENT);
-					// [].splice(index, count);
+					// append: [].splice(index, 0, ELEMENT);
+					// remove: [].splice(index, count);
 					const linepath = markers.map(marker => marker.getPosition());
-					// if (polyline !== null) polyline.setMap(null);
-					/*
-					if (tempmarker !== null) tempmarker.setMap(null);
-					tempmarker = new daum.maps.Marker({
-						position: uav.getPosition(),
-						map: map
-					});
-					*/
-					// linepath.splice(index+1, 0, tempmarker);
 					const linepath1 = linepath.slice(0, index+1);
-					//linepath1.push(tempmarker);
-					//const linepath2 = linepath.slice(index+1);
 					linepath1.push(uav.getPosition());
 					const linepath2 = [uav.getPosition()].concat(linepath.slice(index+1));
-					/*
-					polyline = new daum.maps.Polyline({
-						path: linepath,
-						strokeWeight: 5,
-						strokeColor: '#FFAE00',
-						strokeOpacity: 0.7,
-						strokeStyle: 'solid'    // 'dash'
-					});
-					polyline.setMap(map);
-					*/
 					polylines.forEach(line => line.setMap(null));
 					polylines = [];
 					polylines.push(
 						new daum.maps.Polyline({
-							path: linepath1,//.map(marker => marker.getPosition()),
+							path: linepath1,
 							strokeWeight: 5,
 							strokeColor: '#FFAE00',
 							strokeOpacity: 0.7,
-							strokeStyle: 'solid'    // 'dash'
+							strokeStyle: 'solid'
 						})
 					);
 					polylines.push(
 						new daum.maps.Polyline({
-							path: linepath2,//.map(marker => marker.getPosition()),
+							path: linepath2,
 							strokeWeight: 5,
 							strokeColor: '#FFAE00',
 							strokeOpacity: 0.7,
@@ -378,13 +349,11 @@
 						from = to;
 						fpos = tpos;
 						to = markers[index+1];
+						// TODO: 도착했을 때 tpos가 존재하지 않아서 NullPointerException 발생
 						tpos = to.getPosition();
 						tpos = new daum.maps.LatLng(tpos.getLat(), tpos.getLng());
 
-						let angle = Math.atan2(fpos.getLng() - tpos.getLng(), fpos.getLat() - tpos.getLat());
-						angle = (angle * (180 / Math.PI) + 360) % 360;
-						console.log('angle:', angle);
-						console.log('transform:', uav.md.style.transform);
+						updateUAVAngle(uav, calcAngle(fpos, tpos));
 
 						/*
 						uav.setMap(null);
@@ -396,9 +365,6 @@
 						});
 						markers[0] = uav;
 						*/
-
-						uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
-						console.log('transform:', uav.md.style.transform);
 					}
 				}, 1000);
 			}
