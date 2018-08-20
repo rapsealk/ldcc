@@ -1,4 +1,5 @@
-# electron
+# LDCC GCS
+- Lotte Data Communication Company Drone Ground Control System
 
 ## API KEY
 - Google Geolocation API: AIzaSyCFoLMaySYpiZgo17QeLISN8l8-bt9wnn0
@@ -26,9 +27,29 @@
 * [15:19] 프로그램 창 이름 "롯데정보통신 드론 관제"
     - index.js >> BrowserWindow::title
 
-### dependencies
+## dependencies
 - [electron-builder](https://github.com/electron-userland/electron-builder)
 ```
 yarn add electron-builder --dev
 yarn dist
+```
+
+## ROS Messages
+### geometry_msgs/Pose.msg [LINK](http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Pose.html)
+```
+[Point](https://github.com/rapsealk/ldcc#geometry_msgs/Point.msg) position
+Quaternion orientation
+```
+### geometry_msgs/Point.msg [LINK](http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Point.html)
+```
+float64 x
+float64 y
+float64 z
+```
+### geometry_msgs/Quaternion.msg [LINK](http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Quaternion.html)
+```
+float64 x
+float64 y
+float64 z
+float64 w
 ```
