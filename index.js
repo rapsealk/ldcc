@@ -12,7 +12,7 @@ function createWindow() {
     process.env.GOOGLE_API_KEY = 'AIzaSyCFoLMaySYpiZgo17QeLISN8l8-bt9wnn0';
 
     win = new BrowserWindow({
-        title: "롯데정보통신 드론 관제",
+        title: "롯데정보통신 드론관제시스템",
         width: 800, height: 600,
         titleBarStyle: 'hidden',
         icon: path.join(__dirname, 'assets/icons/lotte.ico')

@@ -6,6 +6,14 @@
 - Kakao Map API: 339fc8af69d18e161455f9bd0e826127
 
 ## TODO
+
+### 2018-08-20
+- 프로그램 제목: "롯데정보통신 드론관제시스템"					// (16:51)
+- 탭 이름 "기능" -> "설정"									// (16:51)
+- 4분할 9분할 16분할 (html 분할?)
+- 모든 처리(값 출력 등)를 OpenCV에서 처리하고 얘는 스트리밍만
+- IP입력 -> 체크박스 (uav1, uav2, uav3)
+
 ### 2018-08-17
 - 마커 클릭 후 디테일 설정 (비행 시간, 호버링, 편대 모양 등의 옵션)
 ### 2018-08-16
@@ -19,13 +27,13 @@
 ## FINISHED
 ### 2018-08-18
 * [15:18] 드론 스트리밍은 현재 고정된 것으로 보이나, 드론을 설정할 수 있는 것으로 변경되어야 함.(드론 IP설정 필요)
-    - Flask + OpenCV MotionJPEG
+	- Flask + OpenCV MotionJPEG
 ### 2018-08-17
 * [15:00] 아울러, 지도 zoom in / out, 축척이 표시되어야 함.
-    - 다음카카오 지도 기본 제공
+	- 다음카카오 지도 기본 제공
 ### 2018-08-16
 * [15:19] 프로그램 창 이름 "롯데정보통신 드론 관제"
-    - index.js >> BrowserWindow::title
+	- index.js >> BrowserWindow::title
 
 ## dependencies
 - [electron-builder](https://github.com/electron-userland/electron-builder)
