@@ -12,7 +12,7 @@
 - 탭 이름 "기능" -> "설정"									// (16:51)
 - 4분할 9분할 16분할 (html 분할?)
 - 모든 처리(값 출력 등)를 OpenCV에서 처리하고 얘는 스트리밍만
-- IP입력 -> 체크박스 (uav1, uav2, uav3)
+- IP입력 -> 체크박스 (uav1, uav2, uav3)	// (2018-08-21 04:41)
 
 ### 2018-08-17
 - 마커 클릭 후 디테일 설정 (비행 시간, 호버링, 편대 모양 등의 옵션)
@@ -38,6 +38,9 @@
 ## dependencies
 - [electron-builder](https://github.com/electron-userland/electron-builder)
 ```
+// Run
+electron index.js
+// Build
 yarn add electron-builder --dev
 yarn dist
 ```

@@ -29,22 +29,22 @@ for (let i = 0; i < videoCount; i++) {
 				<fieldset class="form-group">
 					<div class="input">
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="uavId1" name="1" class="custom-control-input">
+							<input type="radio" id="uavId1" name="uid" value="1" class="custom-control-input" checked>
 							<label class="custom-control-label" for="uavId1">UAV 01</label>
 						</div>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="uavId2" name="2" class="custom-control-input">
+							<input type="radio" id="uavId2" name="uid" value="2" class="custom-control-input">
 							<label class="custom-control-label" for="uavId2">UAV 02</label>
 						</div>
 						<div class="custom-control custom-radio custom-control-inline">
-							<input type="radio" id="uavId3" name="3" class="custom-control-input">
+							<input type="radio" id="uavId3" name="uid" value="3" class="custom-control-input">
 							<label class="custom-control-label" for="uavId3">UAV 03</label>
 						</div>
 					</div>
 				</fieldset>
 			`,
 			callback: data => {
-				const id = Object.keys(data)[0];
+				const id = data.uid;
 				if (id === undefined) return;
 				document.getElementById('uav-video').src = streamAddress[id-1];
 			}

@@ -37,7 +37,8 @@ function createWindow() {
     */
    
     win.loadURL(url.format({
-        pathname: 'localhost:3000/index.html',
+        pathname: 'localhost:3000/option.html',
+        // pathname: 'localhost:3000/index.html',
         protocol: 'http:',
         slashes: true
     }));

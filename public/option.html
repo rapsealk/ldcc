@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+		<!-- Vex -->
+		<script src="/script/vex.combined.min.js"></script>
+		<script>vex.defaultOptions.className = 'vex-theme-os'</script>
+		<link rel="stylesheet" href="/style/vex.css" />
+		<link rel="stylesheet" href="/style/vex-theme-os.css" />
+	</head>
+	<body>
+		<script>
+			vex.dialog.open({
+				message: '화면 분할을 선택해주세요.',
+				input: `
+					<style>
+						.input {
+							margin: .4rem;
+						}
+					</style>
+					
+					<fieldset class="form-group">
+						<div class="input">
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="radio" id="division-2x2" name="division" value="2x2" class="custom-control-input" checked>
+								<label class="custom-control-label" for="division-2x2">2x2</label>
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="radio" id="division-3x3" name="division" value="3x3" class="custom-control-input">
+								<label class="custom-control-label" for="division-3x3">3x3</label>
+							</div>
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="radio" id="division-4x4" name="division" value="4x4" class="custom-control-input">
+								<label class="custom-control-label" for="division-4x4">4x4</label>
+							</div>
+						</div>
+					</fieldset>
+				`,
+				callback: data => {
+					const division = data.division;
+					if (division === undefined) {
+						require('electron').remote.getCurrentWindow().close();
+					} else if (division === '2x2') {
+						window.location.href = '/index.html';
+					} else {
+						window.location.href = `/grid?size=${division}`;
+					}
+				}
+			})
+		</script>
+	</body>
+</html>
