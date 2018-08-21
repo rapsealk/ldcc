@@ -271,8 +271,8 @@
 				// 잠시 경로 삭제
 				if (polyline !== null) polyline.setMap(null);
 
-				if (markers.length < 3) {
-					vex.dialog.alert('2개 이상의 경유지가 필요합니다.');
+				if (markers.length < 1) {
+					vex.dialog.alert('1개 이상의 경유지가 필요합니다.');
 					return;
 				}
 
