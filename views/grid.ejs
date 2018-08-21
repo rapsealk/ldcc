@@ -25,18 +25,18 @@
 
 		<img id="logo" src="/img/lotte_dc_ci.png">
 
-		<!--div class="uav-video">
+		<div class="uav-video">
 			<div class="uav-details">
 				<div class="uav-tag">UAV 1</div>
 				<div class="uav-angle">angle: 32 degree</div>
 				<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
 			</div>
-			<--video autoplay><-- autoplay/controls >
+			<!--video autoplay><-- autoplay/controls >
 				<--source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
 				Your browser does not support the video tag.
-			</video>
+			</video-->
 			<img id="uav-video" src="" alt="UAV 01 not loaded properly.">
-        </div-->
+        </div>
 
         <!-- if (size === '2x2') { >
 		<div class="uav-video">
@@ -69,7 +69,7 @@
         </div>
         <-- } -->
         <% if (size === '3x3') { %>
-        <% const count = (3 * 3) - 1; for (let i = 1; i <= count; i++) { %>
+        <% const count = (3 * 3) - 1; for (let i = 2; i <= count; i++) { %>
         <div class="uav-video">
             <div class="uav-details">
                 <div class="uav-tag">UAV <%= i %></div>
@@ -83,7 +83,7 @@
         </div>
         <% } %>
         <% } else if (size === '4x4') { %>
-        <% const count = (4 * 4) - 1; for (let i = 1; i <= count; i++) { %>
+        <% const count = (4 * 4) - 1; for (let i = 2; i <= count; i++) { %>
         <div class="uav-video">
             <div class="uav-details">
                 <div class="uav-tag">UAV <%= i %></div>
