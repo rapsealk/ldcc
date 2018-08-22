@@ -17,47 +17,61 @@
 	</head>
 	<body>
 
-		<img id="logo" src="/img/lotte_dc_ci.png">
+		<div id="left-wing" style="width: 20%; background: red;">
+		
+			<div class="collapse" id="collapseSample" style="width: 100%; height: 100%;">
+				<div class="card card-body">
+					Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+				</div>
+			</div>
+		
+		</div>
+		
+		<div id="right-wing" style="width: 80%; float: right; position: relative; background: blue;">
 
-		<div class="uav-video">
-			<div class="uav-details">
-				<div class="uav-tag">UAV 1</div>
-				<div class="uav-angle">angle: 32 degree</div>
-				<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+			<!--img id="logo" src="/img/lotte_dc_ci.png"-->
+
+			<div class="uav-video">
+				<div class="uav-details">
+					<div class="uav-tag">UAV 1</div>
+					<div class="uav-angle">angle: 32 degree</div>
+					<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+				</div>
+				<!--video autoplay--><!-- autoplay/controls -->
+					<!--source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video-->
+				<img id="uav-video" src="" alt="UAV 01 not loaded properly.">
 			</div>
-			<!--video autoplay--><!-- autoplay/controls -->
-				<!--source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video-->
-			<img id="uav-video" src="" alt="UAV 01 not loaded properly.">
-		</div>
-		<div class="uav-video">
-			<div class="uav-details">
-				<div class="uav-tag">UAV 2</div>
-				<div class="uav-angle">angle: 32 degree</div>
-				<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+			<div class="uav-video">
+				<div class="uav-details">
+					<div class="uav-tag">UAV 2</div>
+					<div class="uav-angle">angle: 32 degree</div>
+					<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+				</div>
+				<video autoplay muted>
+					<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
 			</div>
-			<video autoplay muted>
-				<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-		</div>
-		<div class="uav-video">
-			<div class="uav-details">
-				<div class="uav-tag">UAV 3</div>
-				<div class="uav-angle">angle: 32 degree</div>
-				<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+			<div class="uav-video">
+				<div class="uav-details">
+					<div class="uav-tag">UAV 3</div>
+					<div class="uav-angle">angle: 32 degree</div>
+					<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+				</div>
+				<video autoplay muted>
+					<source src="http://localhost:3000/LoveU.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
 			</div>
-			<video autoplay muted>
-				<source src="http://localhost:3000/LoveU.mp4" type="video/mp4">
-				Your browser does not support the video tag.
-			</video>
-		</div>
-		<div class="uav-map">
-			<div class="uav-details">
-				<div class="uav-tag" id="map-edit-tag" style="color: crimson;">Mode: 보기</div>
+			<div class="uav-map">
+				<div class="uav-details">
+					<div class="uav-tag" id="map-edit-tag" style="color: crimson;">Mode: 보기</div>
+				</div>
+				<div id="map"></div>
 			</div>
-			<div id="map"></div>
+
 		</div>
 
 		<!-- remove jQuery -->
