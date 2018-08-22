@@ -1,26 +1,27 @@
 <!DOCTYPE html>
-<html lang="en"><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="">
-	<meta name="author" content="">
-	<link rel="icon" href="https://getbootstrap.com/favicon.ico">
+	<!--link rel="icon" href="https://getbootstrap.com/favicon.ico"-->
 
-	<title>Dashboard Template for Bootstrap</title>
+	<title>롯데정보통신 드론관제시스템</title>
 
 	<!-- Bootstrap core CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+	<link rel="stylesheet" type="text/css" href="/style/default.css">
+	<link rel="stylesheet" type="text/css" href="/style/accordion.css">
 
 	<!-- Custom styles for this template -->
 	<link href="Dashboard%20Template%20for%20Bootstrap_files/dashboard.css" rel="stylesheet">
-  <style type="text/css">/* Chart.js */
-@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style></head>
+</head>
 
   <body>
 	<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-	  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Company name</a>
-	  <input class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search" type="text">
+	  <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">LOTTE SMART DRONE VIEWER</a>
+	  <!--input class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search" type="text"-->
 	  <ul class="navbar-nav px-3">
 		<li class="nav-item text-nowrap">
 		  <a class="nav-link" href="#">Sign out</a>
@@ -28,7 +29,7 @@
 	  </ul>
 	</nav>
 
-	<div class="container-fluid">
+	<div class="container-fluid bg-dark">
 	  <div class="row">
 		<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 		  <div class="sidebar-sticky">
@@ -97,16 +98,37 @@
 				</a>
 			  </li>
 			  <li class="nav-item">
-				<a class="nav-link" href="#">
-				  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+				<!--a class="nav-link" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
 				  Year-end sale
-				</a>
+				</a-->
+
+				<button class="is-accordion">카메라</button>
+				<div class="accordion-panel">
+					<p>Lorem ipsum...</p>
+				</div>
+				<button class="is-accordion">지도</button>
+				<div class="accordion-panel">
+					<p>Lorem ipsum...</p>
+				</div>
+				<button class="is-accordion">경로설정</button>
+				<div class="accordion-panel">
+					<p>Lorem ipsum...</p>
+				</div>
+				<button class="is-accordion">뷰어</button>
+				<div class="accordion-panel">
+					<p>Lorem ipsum...</p>
+				</div>
+				<button class="is-accordion">사용자</button>
+				<div class="accordion-panel">
+					<p>Lorem ipsum...</p>
+				</div>
 			  </li>
 			</ul>
 		  </div>
 		</nav>
 
-		<div class="uav-video">
+		<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<div class="uav-video">
 				<div class="uav-details">
 					<div class="uav-tag">UAV 2</div>
 					<div class="uav-angle">angle: 32 degree</div>
@@ -117,23 +139,57 @@
 					Your browser does not support the video tag.
 				</video>
 			</div>
-
+			<div class="uav-video">
+				<div class="uav-details">
+					<div class="uav-tag">UAV 2</div>
+					<div class="uav-angle">angle: 32 degree</div>
+					<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+				</div>
+				<video autoplay muted>
+					<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+			<div class="uav-video">
+				<div class="uav-details">
+					<div class="uav-tag">UAV 2</div>
+					<div class="uav-angle">angle: 32 degree</div>
+					<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+				</div>
+				<video autoplay muted>
+					<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+			<div class="uav-video">
+				<div class="uav-details">
+					<div class="uav-tag">UAV 2</div>
+					<div class="uav-angle">angle: 32 degree</div>
+					<div class="uav-position">lat: 33.450501, lon: 126.570217, alt: 30km</div>
+				</div>
+				<video autoplay muted>
+					<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
+					Your browser does not support the video tag.
+				</video>
+			</div>
+		</main>
+		
 	  </div>
 	</div>
 
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="Dashboard%20Template%20for%20Bootstrap_files/jquery-3.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<!--script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script-->
-	<script>window.jQuery || document.write('<script src="/script/jquery-3.3.1.slim.min.js"><\/script>')</script>
-	<script src="Dashboard%20Template%20for%20Bootstrap_files/popper.js"></script>
-	<script src="Dashboard%20Template%20for%20Bootstrap_files/bootstrap.js"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+	<script src="/script/accordion.js"></script>
 
 	<!-- Icons -->
-	<script src="Dashboard%20Template%20for%20Bootstrap_files/feather.js"></script>
+	<!--script src="Dashboard%20Template%20for%20Bootstrap_files/feather.js"></script>
 	<script>
 	  feather.replace()
-	</script>
+	</script-->
 </body>
 </html>
