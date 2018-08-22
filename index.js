@@ -57,8 +57,10 @@ function createWindow() {
     }));
     */
 
+    // win.on('resize', () => win.maximize());
+
     win.maximize();
-    //win.setResizable(false);
+    // win.setResizable(false);
 
     // win.webContents.openDevTools();
 
