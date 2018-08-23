@@ -103,10 +103,10 @@
 							<button class="is-accordion">카메라</button>
 							<div class="accordion-panel">
 								<ul class="nav flex-column mb-2">
-									<li class="nav-item" draggable="true">
-										<a class="nav-link" href="#">
-										<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-file-text"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-										Current month
+									<li class="nav-item draggable-item-video" draggable="true">
+										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4">
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+											Why Don't You Know
 										</a>
 									</li>
 									<li class="nav-item" draggable="true">
@@ -213,15 +213,21 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
 	<script type="text/javascript">
-		const uav_videos = document.getElementsByClassName('uav-video');
+		let uav_videos = document.getElementsByClassName('uav-video');
+		let selected_uav_video = null;
 		function setBorderLineOnVideo(index, flag) {
 			// uav_videos[index].style.border = flag ? '2px solid skyblue' : '';
 			uav_videos[index].style.outline = flag ? '2px solid red' : '';
 		}
 		function onVideoClick(index) {
 			return function(e) {
-				for (let i = 0; i < 4; i++) setBorderLineOnVideo(i, false);
+				for (let i = 0; i < 4; i++) {
+					if (i === index) continue;
+					uav_videos[i].setAttribute('selected', false);
+					setBorderLineOnVideo(i, false);
+				}
 				let node = uav_videos[index];
+				selected_uav_video = node;
 				let state = !(node.getAttribute('selected') === 'true');
 				setBorderLineOnVideo(index, state);
 				node.setAttribute('selected', state);
@@ -229,6 +235,31 @@
 		}
 		for (let i = 0; i < 4; i++) {
 			uav_videos[i].addEventListener('click', onVideoClick(i));
+		}
+	</script>
+
+	<!-- 드래그 앤 드랍으로 비디오 설정 -->
+	<script type="text/javascript">
+		function allowDrop(e) {
+			e.preventDefault();
+		}
+		function drag(e) {
+			e.dataTransfer.setData("src", e.target.getAttribute('value'));
+		}
+		function drop(e) {
+			e.preventDefault();
+			var url = e.dataTransfer.getData("src");
+			e.target.childNodes[1].src = url;
+			e.target.load();
+			e.target.play();
+		}
+		let draggableItemVideo = document.getElementsByClassName('draggable-item-video');
+		for (let i = 0; i < draggableItemVideo.length; i++) {
+			draggableItemVideo[i].addEventListener('dragstart', drag);
+		}
+		for (let i = 0; i < uav_videos.length; i++) {
+			uav_videos[i].addEventListener('drop', drop);
+			uav_videos[i].addEventListener('dragover', allowDrop);
 		}
 	</script>
 
