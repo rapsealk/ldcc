@@ -9,6 +9,7 @@ let win;
 
 function createWindow() {
 
+    // TODO: Google Geolocation API KEY 요청하기
     process.env.GOOGLE_API_KEY = 'AIzaSyCFoLMaySYpiZgo17QeLISN8l8-bt9wnn0';
 
     win = new BrowserWindow({
@@ -37,7 +38,9 @@ function createWindow() {
     */
    
     win.loadURL(url.format({
-        pathname: 'localhost:3000/option.html',
+        // pathname: 'localhost:3000/login',
+        // pathname: 'localhost:3000/option.html',
+        pathname: 'localhost:3000',//pathname: 'localhost:3000/newmain.html',
         // pathname: 'localhost:3000/index.html',
         protocol: 'http:',
         slashes: true
@@ -55,7 +58,10 @@ function createWindow() {
     }));
     */
 
-    // win.maximize();
+    // win.on('resize', () => win.maximize());
+
+    win.maximize();
+    // win.setResizable(false);
 
     // win.webContents.openDevTools();
 

@@ -249,11 +249,11 @@
 				
 				// Marker Drag-End Event
 				daum.maps.event.addListener(marker, 'click', function() {
-					// TODO: Update Layout
+					// Update Layout
 					const index = markers.indexOf(marker);
-					/* TODO: build a DOM (createElement)
+					/* build a DOM (createElement)
 					const formNode = document.createElement("form");
-					// TODO: padding not works
+					// padding not works => '10px'
 					formNode.style.padding = 10;
 					const divNode = document.createElement("div");
 					divNode.className = "form-group";
@@ -309,7 +309,7 @@
 				uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
 			}
 
-			// TODO: drone move test
+			// drone move test
 			function moveTest() {
 
 				// 잠시 경로 삭제
@@ -348,7 +348,6 @@
 						vex.dialog.alert('Reached to goal!');
 						clearInterval(movementInterval);
 
-						// TODO: 경로 복구(?)
 						if (polyline !== null) polyline.setMap(map);
 					}
 					const dx = (tpos.getLat() - fpos.getLat()) / 5;
@@ -357,7 +356,6 @@
 					let upos = uav.getPosition();
 					uav.setPosition(new daum.maps.LatLng(upos.getLat() + dx, upos.getLng() + dy));
 
-					// TODO: 점선/실선 업데이트 =====================================================================================================
 					// append: [].splice(index, 0, ELEMENT); (!!do not assign!!)
 					// remove: [].splice(index, count);
 					const linepath1 = linepath.slice(0, index+1);
@@ -391,7 +389,6 @@
 					// if (upos.getLat() + Number.EPSILON == tpos.getLat()) {
 						index += 1;
 						fpos = tpos;
-						// TODO: 도착했을 때 tpos가 존재하지 않아서 NullPointerException 발생
 						if (index < goalIndex) tpos = linepath[index+1];
 
 						updateUAVAngle(uav, calcAngle(fpos, tpos));
