@@ -1,3 +1,8 @@
+/**
+ * 영상 화면 분할 관리 모듈
+ * 버튼 클릭 이벤트를 통해 2x2, 3x3, 4x4로 분할 가능.
+ * 분할할 때 맵을 제외한 기존 노드들 삭제 후 새로 생성.
+ */
 const divisionButtons = document.getElementsByClassName('btn-division');
 const divisions = ['2x2', '3x3', '4x4'];
 const mainContainer = document.getElementById('main-container');
@@ -6,21 +11,15 @@ for (let i = 0; i < divisions.length; i++) {
         let cell = (i + 2);
         let size = Math.floor(100 / cell);
         console.log(`cell: ${cell}, size: ${size}`);
+        let childrenNodes = mainContainer.children;
+        let map = childrenNodes[childrenNodes.length-1].cloneNode(true);
+        // let map = mainContainer.children.cloneNode(true);
+        console.log('clone map:', map);
         while (mainContainer.hasChildNodes()) mainContainer.removeChild(mainContainer.firstChild);
-        let numberOfCells = (cell * cell);
+        let numberOfCells = (cell * cell) - 1;
         for (let j = 1; j <= numberOfCells; j++) {
             let videoDiv = document.createElement('div');
             videoDiv.className = 'uav-video';
-            /*
-            let detailsDiv = document.createElement('div');
-            detailsDiv.className = 'uav-details';
-            let tagDiv = document.createElement('div');
-            tagDiv.className = 'uav-tag';
-            let angleDiv = document.createElement('div');
-            angleDiv.className = 'uav-angle';
-            let positionDiv = document.createElement('div');
-            positionDiv.className = 'uav-position';
-            */
             let videoTag = document.createElement('video');
             videoTag.autoplay = true;
             videoTag.muted = true;
@@ -36,7 +35,17 @@ for (let i = 0; i < divisions.length; i++) {
         for (let j = 0; j < numberOfCells; j++) {
             cells[j].style.width = `${size}%`;
             cells[j].style.height = `${size}%`;
+
+            cells[j].addEventListener('click', onVideoClick(j));
+            cells[j].addEventListener('drop', drop);
+			cells[j].addEventListener('dragover', allowDrop);
         }
+        console.log('append map:', map);
+        mainContainer.appendChild(map);
+        map.style.width = `${size}%`;
+        map.style.height = cells[0].style.height;//`${size}%`;
+        //document.getElementById('map').style.width = `${size}%`;
+        //document.getElementById('map').style.height = cells[0].style.height;
         /*
         <div class="uav-video">
             <div class="uav-details">
@@ -52,3 +61,5 @@ for (let i = 0; i < divisions.length; i++) {
         */
     });
 }
+
+divisionButtons[0].click();
