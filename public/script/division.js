@@ -62,4 +62,5 @@ for (let i = 0; i < divisions.length; i++) {
     });
 }
 
+// FIXME: 최초 상태에서 드래그&드롭이 작동이 되지 않아 강제 리로드.
 divisionButtons[0].click();
