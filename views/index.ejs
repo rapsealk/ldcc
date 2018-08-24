@@ -17,6 +17,12 @@
 
 	<!-- Custom styles for this template -->
 	<link href="/style/dashboard.css" rel="stylesheet">
+
+	<!-- Vex -->
+	<script src="/script/vex.combined.min.js"></script>
+	<script>vex.defaultOptions.className = 'vex-theme-os'</script>
+	<link rel="stylesheet" href="/style/vex.css" />
+	<link rel="stylesheet" href="/style/vex-theme-os.css" />
 </head>
 
 <body>
@@ -50,7 +56,7 @@
 							<div class="accordion-panel">
 								<ul class="nav flex-column mb-2">
 									<li class="nav-item">
-										<a class="nav-link d-flex align-items-center text-muted" href="#">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#">
 											추가하기
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
@@ -97,26 +103,9 @@
 			</nav>
 			<div>
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container" style="margin-top: 4px;">
-					<!--div>
-						<video class="video-magnified" autoplay muted>
-							<source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
-						</video>
-					</div-->
-					<div class="uav-video">
-						<video autoplay muted>
-							<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-						</video>
-					</div>
-					<div class="uav-video">
-						<video autoplay muted>
-							<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-						</video>
-					</div>
-					<div class="uav-video">
-						<video autoplay muted>
-							<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-						</video>
-					</div>
+					<div class="uav-video"><video autoplay muted><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+					<div class="uav-video"><video autoplay muted><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+					<div class="uav-video"><video autoplay muted><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
 					<div class="uav-map">
 						<div id="map"></div>
 					</div>
@@ -191,25 +180,8 @@
 
 	<script type="text/javascript">
 		let uav_videos = document.getElementsByClassName('uav-video');
-		let selected_uav_video = null;
-		function setBorderLineOnVideo(index, flag) {
-			uav_videos[index].style.outline = flag ? '2px solid skyblue' : '';
-		}
 		function onVideoClick(index) {
 			return function(e) {
-				/*
-				for (let i = 0; i < 4; i++) {
-					if (i === index) continue;
-					uav_videos[i].setAttribute('selected', false);
-					setBorderLineOnVideo(i, false);
-				}
-				let node = uav_videos[index];
-				selected_uav_video = node;
-				let state = !(node.getAttribute('selected') === 'true');
-				setBorderLineOnVideo(index, state);
-				node.setAttribute('selected', state);
-				*/
-
 				let url = e.target.childNodes[0].src;
 				const magnified = document.createElement('div');
 				const mvideo = document.createElement('video');
@@ -237,6 +209,112 @@
 			uav_videos[i].addEventListener('click', onVideoClick(i));
 		}
 	</script>
+
+	<!-- SSH and ROS run -->
+	<script type="text/javascript">
+		const node_ssh = require('node-ssh');
+		const ssh = new node_ssh();
+		document.getElementById('add-cam').addEventListener('click', function(e) {
+			e.preventDefault();
+			vex.dialog.open({
+				message: '카메라의 IP 주소를 입력해주세요.',
+				input: `
+					<style>
+						.input {
+							margin: .4rem;
+						}
+					</style>
+					
+					<fieldset class="form-group">
+						<div class="input">
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="text" name="address" placeholder="127.0.0.1">
+							</div>
+						</div>
+					</fieldset>
+				`,
+				callback: value => {
+					// alert(value);
+					const { address } = value;
+					console.log('address:', address);
+
+					ssh.connect({
+						host: address,
+						port: 22,
+						username: 'root',
+						password: '111111'
+					})
+					.then(() => {
+						console.log('then ->');
+						ssh.exec('mkdir chungha && ls', '', {
+							onStdout: chunk => console.log(`stdout: ${chunk.toString('utf8')}`),
+							onStderr: chunk => console.log(`stderr: ${chunk.toString('utf8')}`)
+						});
+					})
+					.catch(error => console.error);
+				}
+			});
+		});
+	</script>
+
+	<!-- Menu -->
+	<!--
+	<script type="text/javascript">
+		const { remote } = require('electron');
+		const { Menu } = remote;
+
+		const template = [
+			{
+				label: '설정',
+				submenu: [
+					{
+						label: '경로설정',
+						accelerator: 'Ctrl+Shift+P',
+						click: (item, focusedWindow) => {
+							/*
+							if (isMapClickable) daum.maps.event.removeListener(map, 'click', onMapClick);
+							else daum.maps.event.addListener(map, 'click', onMapClick);
+							isMapClickable = !isMapClickable;
+							document.getElementById('map-edit-tag').innerHTML = `Mode: ${isMapClickable ? '경로 설정' : '보기'}`;
+							*/
+						}
+					},
+					{
+						label: '경로전달',
+						accelerator: 'Ctrl+Shift+R',
+						click: (item, focusedWindow) => {
+							vex.dialog.confirm({
+								message: '경로를 전달하시겠습니까?',
+								callback: value => {
+									if (value === false) return;
+									/*
+									const path = markers.map(marker => {
+										const position = marker.getPosition();
+										return {
+											latitude: position.getLat(),
+											longitude: position.getLng()
+										};
+									});
+									*/
+									// moveTest();
+								}
+							});
+						}
+					},
+					// TODO: debug/non release
+					{
+						label: '개발자도구',
+						role: 'toggleDevTools'
+					}
+				]
+			}
+		];
+
+		const menu = Menu.buildFromTemplate(template);
+
+		Menu.setApplicationMenu(menu);
+	</script>
+	-->
 
 	<!-- 드래그 앤 드랍으로 비디오 설정 -->
 	<script type="text/javascript">

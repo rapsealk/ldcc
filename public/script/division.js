@@ -10,11 +10,11 @@ for (let i = 0; i < divisions.length; i++) {
     document.getElementById(`btn-division-${divisions[i]}`).addEventListener('click', function(e) {
         let cell = (i + 2);
         let size = Math.floor(100 / cell);
-        console.log(`cell: ${cell}, size: ${size}`);
         let childrenNodes = mainContainer.children;
-        let map = childrenNodes[childrenNodes.length-1].cloneNode(true);
-        // let map = mainContainer.children.cloneNode(true);
-        console.log('clone map:', map);
+        // let map = childrenNodes[childrenNodes.length-1].cloneNode(true);
+        // FIXME: Javascript trick!
+        let map = childrenNodes[childrenNodes.length-1];
+        mainContainer.children.length = mainContainer.children.length - 1;
         while (mainContainer.hasChildNodes()) mainContainer.removeChild(mainContainer.firstChild);
         let numberOfCells = (cell * cell) - 1;
         for (let j = 1; j <= numberOfCells; j++) {
@@ -40,12 +40,10 @@ for (let i = 0; i < divisions.length; i++) {
             cells[j].addEventListener('drop', drop);
 			cells[j].addEventListener('dragover', allowDrop);
         }
-        console.log('append map:', map);
         mainContainer.appendChild(map);
+
         map.style.width = `${size}%`;
-        map.style.height = cells[0].style.height;//`${size}%`;
-        //document.getElementById('map').style.width = `${size}%`;
-        //document.getElementById('map').style.height = cells[0].style.height;
+        map.style.height = '200px';
         /*
         <div class="uav-video">
             <div class="uav-details">
@@ -61,6 +59,3 @@ for (let i = 0; i < divisions.length; i++) {
         */
     });
 }
-
-// FIXME: 최초 상태에서 드래그&드롭이 작동이 되지 않아 강제 리로드.
-divisionButtons[0].click();

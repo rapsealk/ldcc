@@ -15,6 +15,10 @@ html, body {
     overflow: hidden;
 }
 
+#main-container {
+    width: 100%;
+}
+
 div.uav-video, div.uav-map {
     width: 50%;
     height: 50%;
@@ -22,16 +26,6 @@ div.uav-video, div.uav-map {
     position: relative;
     padding-right: 5px;
     background: #343A40;
-
-    /*
-    outline-style: solid;
-    outline-color: red;
-    outline-offset: 2px;
-    */
-    -moz-outline-radius: 0.125em;
-
-    /* border: 2px solid skyblue; */
-    /* border-radius: 0.125em; */
 }
 
 div.uav-video > video,
@@ -40,19 +34,6 @@ div.uav-video > img {
     height: 100%;
 }
 
-/*
-div.uav-video-magnified {
-    min-width: 100%;
-    min-height: 100%;
-
-    display: block;
-    position: absolute;
-    width: auto;
-    height: auto;
-    background-size: cover;
-    z-index: 9;
-}
-*/
 .video-magnified {
     position: absolute;
     min-width: 100%; 
