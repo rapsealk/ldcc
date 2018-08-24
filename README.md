@@ -5,6 +5,34 @@
 - Google Geolocation API: AIzaSyCFoLMaySYpiZgo17QeLISN8l8-bt9wnn0
 - Kakao Map API: 339fc8af69d18e161455f9bd0e826127
 
+## Clone
+```
+// dev 브랜치 클론
+git clone https://github.com/rapsealk/ldcc.git -b dev --depth 1
+
+// packages.json에 적힌 필요한 모듈들 설치
+npm install
+
+// electron 프레임워크 설치
+[sudo] npm install -g electron --unsafe-perm=true
+
+// yarn 패키지매니저 설치
+npm install -g yarn
+sudo apt-get install yarn
+
+// electron-builder 빌더 설치
+yarn add electron-builder --dev
+```
+
+## dependencies
+- [electron-builder](https://github.com/electron-userland/electron-builder)
+```
+// Run
+electron index.js
+// Build
+yarn dist
+```
+
 ## TODO
 
 ### 2018-08-20
@@ -35,16 +63,6 @@
 ### 2018-08-16
 * [15:19] 프로그램 창 이름 "롯데정보통신 드론 관제"
 	- index.js >> BrowserWindow::title
-
-## dependencies
-- [electron-builder](https://github.com/electron-userland/electron-builder)
-```
-// Run
-electron index.js
-// Build
-yarn add electron-builder --dev
-yarn dist
-```
 
 ## ROS Messages
 ### geometry_msgs/Pose.msg [LINK](http://docs.ros.org/melodic/api/geometry_msgs/html/msg/Pose.html)
