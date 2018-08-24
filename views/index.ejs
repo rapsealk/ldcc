@@ -178,6 +178,201 @@
 		const markers = [];
 	</script>
 
+	<!-- 드론 경로 -->
+	<script type="text/javascript">
+		var polyline = null;
+		function drawPolyline() {
+			if (polyline !== null) {
+				polyline.setMap(null);
+			}
+			const linepath = markers.map(marker => marker.getPosition());
+			linepath.splice(0, 0, uav.getPosition());
+			polyline = new daum.maps.Polyline({
+				path: linepath,
+				strokeWeight: 5,
+				strokeColor: '#FFAE00',
+				strokeOpacity: 0.7,
+				strokeStyle: 'solid'    // 'dash'
+			});
+			polyline.setMap(map);
+		}
+
+		var isMapClickable = false;
+		function onMapClick(mouseEvent) {
+			var latlng = mouseEvent.latLng;
+			var marker = new daum.maps.Marker({
+				position: latlng,
+				draggable: true,
+				clickable: true,
+				map: map
+			});
+			markers.push(marker);
+
+			// Draw Line
+			drawPolyline();
+			
+			// Marker Drag-End Event
+			daum.maps.event.addListener(marker, 'click', function() {
+				// Update Layout
+				const index = markers.indexOf(marker);
+				/* build a DOM (createElement)
+				const formNode = document.createElement("form");
+				// padding not works => '10px'
+				formNode.style.padding = 10;
+				const divNode = document.createElement("div");
+				divNode.className = "form-group";
+				const labelNode = document.createElement("label");
+				labelNode.setAttribute("for", "time-expected");
+				labelNode.innerText = "이동 시간";
+				const inputNode = document.createElement("input");
+				inputNode.type = "number";
+				inputNode.className = "form-control";
+				inputNode.id = "time-expected";
+				inputNode.setAttribute("aria-describedby", "timeHelp");
+				inputNode.placeholder = "5";
+				const smallNode = document.createElement("small");
+				smallNode.id = "timeHelp";
+				smallNode.className = "form-text text-muted";
+				smallNode.innerText = "희망 시간을 입력하세요.(s)";
+				divNode.appendChild(labelNode);
+				divNode.appendChild(inputNode);
+				divNode.appendChild(smallNode);
+				const buttonNode = document.createElement("button");
+				buttonNode.type = "button";
+				buttonNode.className = "btn btn-sm btn-primary";
+				buttonNode.innerText = "업데이트";
+				formNode.appendChild(divNode);
+				formNode.appendChild(buttonNode);
+				*/
+				const infoWindowContent = `
+					<form style="padding: 10px;">
+						<div class="form-group">
+							<label for="time-expected">이동 시간</label>
+							<input type="number" class="form-control" id="time-expected" aria-describedby="timeHelp" placeholder="5">
+							<small id="timeHelp" class="form-text text-muted">희망 시간을 입력하세요.(s)</small>
+						</div>
+						<button type="button" class="btn btn-sm btn-primary">업데이트</button>
+					</form>
+				`;
+				const infoWindow = new daum.maps.InfoWindow({
+					content: infoWindowContent,	// formNode.outerHTML
+					removable: true
+				});
+				infoWindow.open(map, marker);
+			});
+			daum.maps.event.addListener(marker, 'dragend', drawPolyline);
+		}
+
+		function calcAngle(from/*: daum.maps.LatLng*/, to/*: daum.maps.LatLng*/) {
+			const angle = Math.atan2(from.getLng() - to.getLng(), from.getLat() - to.getLat());
+			return (angle * (180 / Math.PI) + 180) % 360;
+		}
+
+		function updateUAVAngle(uav/*: daum.maps.Marker*/, angle) {
+			// Rotate
+			uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
+		}
+
+		// drone move test
+		function moveTest() {
+
+			// 잠시 경로 삭제
+			if (polyline !== null) polyline.setMap(null);
+
+			if (markers.length < 1) {
+				vex.dialog.alert('1개 이상의 경유지가 필요합니다.');
+				return;
+			}
+
+			let index = 0;
+			const goalIndex = markers.length;
+
+			const _upos = uav.getPosition();
+			const startPosition = new daum.maps.LatLng(_upos.getLat(), _upos.getLng());
+
+			const linepath = markers.map(marker => marker.getPosition());
+			linepath.splice(0, 0, startPosition);
+
+			let fpos = linepath[index];
+			let tpos = linepath[index+1];
+
+			fpos = new daum.maps.LatLng(fpos.getLat(), fpos.getLng());
+			tpos = new daum.maps.LatLng(tpos.getLat(), tpos.getLng());
+
+			updateUAVAngle(uav, calcAngle(fpos, tpos));
+
+			let count = 0;
+			let polylines = [];
+
+			const movementInterval = setInterval(() => {
+
+				count += 1;
+
+				if (index == goalIndex) {
+					vex.dialog.alert('Reached to goal!');
+					clearInterval(movementInterval);
+
+					if (polyline !== null) polyline.setMap(map);
+				}
+				const dx = (tpos.getLat() - fpos.getLat()) / 5;
+				const dy = (tpos.getLng() - fpos.getLng()) / 5;
+
+				let upos = uav.getPosition();
+				uav.setPosition(new daum.maps.LatLng(upos.getLat() + dx, upos.getLng() + dy));
+
+				// append: [].splice(index, 0, ELEMENT); (!!do not assign!!)
+				// remove: [].splice(index, count);
+				const linepath1 = linepath.slice(0, index+1);
+				linepath1.splice(0, 0, startPosition);
+				linepath1.push(uav.getPosition());
+				const linepath2 = [uav.getPosition()].concat(linepath.slice(index+1));
+				
+				polylines.forEach(line => line.setMap(null));
+				polylines = [
+					new daum.maps.Polyline({
+						path: linepath1,
+						strokeWeight: 5,
+						strokeColor: '#FFAE00',
+						strokeOpacity: 0.7,
+						strokeStyle: 'solid'
+					}),
+					new daum.maps.Polyline({
+						path: linepath2,
+						strokeWeight: 5,
+						strokeColor: '#FFAE00',
+						strokeOpacity: 0.7,
+						strokeStyle: 'dash'
+					})
+				];
+				polylines.forEach(line => line.setMap(map));
+				// ==============================================================================================================================
+
+				upos = uav.getPosition();
+				if (count == 5) {
+					count = 0;
+				// if (upos.getLat() + Number.EPSILON == tpos.getLat()) {
+					index += 1;
+					fpos = tpos;
+					// 도착했을 때 tpos가 존재하지 않아서 NullPointerException 발생
+					if (index < goalIndex) tpos = linepath[index+1];
+
+					updateUAVAngle(uav, calcAngle(fpos, tpos));
+
+					/*
+					uav.setMap(null);
+					uav = new daum.maps.Marker({
+						map: map,
+						position: new daum.maps.LatLng(fpos.getLat(), fpos.getLng()),
+						title: 'UAV 1',
+						image: uavIcon
+					});
+					markers[0] = uav;
+					*/
+				}
+			}, 1000);
+		}
+	</script>
+
 	<script type="text/javascript">
 		let uav_videos = document.getElementsByClassName('uav-video');
 		function onVideoClick(index) {
@@ -266,7 +461,6 @@
 	</script>
 
 	<!-- Menu -->
-	<!--
 	<script type="text/javascript">
 		const { remote } = require('electron');
 		const { Menu } = remote;
@@ -279,12 +473,9 @@
 						label: '경로설정',
 						accelerator: 'Ctrl+Shift+P',
 						click: (item, focusedWindow) => {
-							/*
 							if (isMapClickable) daum.maps.event.removeListener(map, 'click', onMapClick);
 							else daum.maps.event.addListener(map, 'click', onMapClick);
 							isMapClickable = !isMapClickable;
-							document.getElementById('map-edit-tag').innerHTML = `Mode: ${isMapClickable ? '경로 설정' : '보기'}`;
-							*/
 						}
 					},
 					{
@@ -304,7 +495,7 @@
 										};
 									});
 									*/
-									// moveTest();
+									moveTest();
 								}
 							});
 						}
@@ -322,7 +513,6 @@
 
 		Menu.setApplicationMenu(menu);
 	</script>
-	-->
 
 	<!-- 드래그 앤 드랍으로 비디오 설정 -->
 	<script type="text/javascript">
@@ -353,5 +543,27 @@
 	<script type="text/javascript" src="/script/division.js"></script>
 
 	<script type="text/javascript" src="/script/accordion.js"></script>
+
+	<!-- Geolocation -->
+	<script type="text/javascript">
+		console.log('navigator.geolocation:', navigator.geolocation);
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(position => {
+				const lat = position.coords.latitude;
+				const lon = position.coords.longitude;
+				console.log(`lat: ${lat}, lon: ${lon}`);
+
+				/* Move map to current location
+				map.setCenter(
+					new daum.maps.LatLng(lat, lon)
+				);
+				*/
+			}, error => {
+				console.log('error:', error);
+			});
+		} else {
+			console.log('navigator.geolocation not found.');
+		}
+	</script>
 </body>
 </html>

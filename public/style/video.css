@@ -12,11 +12,13 @@ html, body {
     height: 100%;
     width: 100%;
 
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 
 #main-container {
     width: 100%;
+
+    display: block;
 }
 
 div.uav-video, div.uav-map {
@@ -49,7 +51,7 @@ div.uav-video > img {
 
 div#map {
     width: 100%;
-    height: 434px;
+    height: 373px;
 }
 
 #logo {

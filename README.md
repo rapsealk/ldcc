@@ -29,6 +29,8 @@ yarn add electron-builder --dev
 ```
 // Run
 electron index.js
+or
+npm run start
 // Build
 yarn dist
 ```
