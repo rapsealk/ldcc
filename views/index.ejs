@@ -25,13 +25,13 @@
 	<link rel="stylesheet" href="/style/vex-theme-os.css" />
 </head>
 
-<body>
-	<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">LOTTE SMART DRONE VIEWER</a>
+<body style="background-color: #606060">
+	<nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background: #606060;">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" style="background: #606060; border: none">LOTTE SMART DRONE VIEWER</a>
 		<!--input class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search" type="text"-->
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap">
-				<a class="nav-link" href="#">사용자 이름</a>
+				<a class="nav-link" href="#" style="color: white">ADMIN</a>
 			</li>
 		</ul>
 	</nav>
@@ -39,11 +39,11 @@
 	<div class="container-fluid bg-dark">
 		<div class="row">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
+				<div class="sidebar-sticky" style="background-color: #606060">
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<!-- Drag n Drop https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#dragstart -->
-							<button class="is-accordion">
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">
 								<!--svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 									<polygon points="23 7 16 12 23 17 23 7"/>
 									<rect x="1" y="6" width="15" height="12" rx="2" ry="2"/>
@@ -53,60 +53,88 @@
 									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 								</a-->
 							</button>
-							<div class="accordion-panel">
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
 								<ul class="nav flex-column mb-2">
 									<li class="nav-item">
-										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
 											추가하기
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4">
+										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4" style="color:white">
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
 											Why Don't You Know
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/RollerCoaster.mp4">
+										<a class="nav-link" href="#" value="http://localhost:3000/RollerCoaster.mp4" style="color:white">
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
 											Roller Coaster
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/LoveU.mp4">
+										<a class="nav-link" href="#" value="http://localhost:3000/LoveU.mp4" style="color:white">
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
 											Love U
 										</a>
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion">지도</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">지도</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
-							<button class="is-accordion">경로설정</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">경로설정</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
-							<button class="is-accordion">뷰어</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">뷰어</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
-							<button class="is-accordion">사용자</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">사용자</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</nav>
-			<div>
-				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container" style="margin-top: 4px;">
-					<div class="uav-video"><video autoplay muted><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
-					<div class="uav-video"><video autoplay muted><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
-					<div class="uav-video"><video autoplay muted><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
-					<div class="uav-map">
+			<div style="background: #404040;">
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container">
+					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+					<div class="uav-map" style="background: #404040">
 						<div id="map"></div>
 					</div>
 				</main>
@@ -114,13 +142,37 @@
 		</div>
 	</div>
 
-	<div class="row" style="background: #343A40; margin-top: 5px;">
+	<div class="row" style="background: #404040">
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
 			<div class="col-md-4">
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-2x2">2x2</button>
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-3x3">3x3</button>
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-4x4">4x4</button>
+				<button class="btn btn-sm btn-normal btn-division" id="btn-division-2x2" style="
+				border-top-width: 0px;
+				border-left-width: 0px;
+				border-bottom-width: 0px;
+				border-right-width: 0px;
+				padding-bottom: 0px;
+				padding-left: 0px;
+				padding-right: 0px;
+				padding-top: 0px;"><img src="http://localhost:3000/img/2x2.png" width="30" height="30"/></button>
+				<button class="btn btn-sm btn-normal btn-division" id="btn-division-3x3" style="
+				border-top-width: 0px;
+				border-left-width: 0px;
+				border-bottom-width: 0px;
+				border-right-width: 0px;
+				padding-bottom: 0px;
+				padding-left: 0px;
+				padding-right: 0px;
+				padding-top: 0px;"><img src="http://localhost:3000/img/3x3.png" width="30" height="30"/></button>
+				<button class="btn btn-sm btn-normal btn-division" id="btn-division-4x4" style="
+				border-top-width: 0px;
+				border-left-width: 0px;
+				border-bottom-width: 0px;
+				border-right-width: 0px;
+				padding-bottom: 0px;
+				padding-left: 0px;
+				padding-right: 0px;
+				padding-top: 0px;"><img src="http://localhost:3000/img/4x4.png" width="30" height="30"/></button>
 			</div>
 		</div>
 	</div>
@@ -449,10 +501,23 @@
 							// TODO: ROS_MASTER_URI 수정
 							stream.end(`export ROS_MASTER_URI=http://192.168.0.32:11311 && export ROS_IP=${address} && rosrun cv_camera cv_camera_node /cv_camera:=/cv1\nexit`);
 						});
+						conn.shell(function(err, stream) {
+							if (err) throw err;
+							stream.on('close', function() {
+								console.log('Stream::close');
+								conn.end();
+							}).on('data', function(data) {
+								console.log('STDOUT:', data.toString('utf-8'));
+							}).stderr.on('data', function(data) {
+								console.log('STDERR:', data.toString('utf-8'));
+							});
+							// TODO: ROS_MASTER_URI 수정
+							stream.end(`ifconfig`);
+						});
 					}).connect({
 						host: address,
 						port: 22,
-						username: 'usvcam1',
+						username: 'uavcam',
 						password: '111111'
 					});
 				}

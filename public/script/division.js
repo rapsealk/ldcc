@@ -44,6 +44,11 @@ for (let i = 0; i < divisions.length; i++) {
 
         map.style.width = `${size}%`;
         map.style.height = '200px';
+        // let map_width = 1920 * size / 100;
+        // let map_height = 1080 * size / 100;
+        // map.style.width = `${map_width}px`;
+        // map.style.height = `${map_height}px`;
+
         /*
         <div class="uav-video">
             <div class="uav-details">
