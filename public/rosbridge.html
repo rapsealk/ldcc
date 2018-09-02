@@ -2,10 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8"/>
-  <script src="http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
-  <script src="http://cdn.robotwebtools.org/roslibjs/current/roslib.js"></script>
-  <script>
-    var ros = new ROSLIB.Ros();
+  <script src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+  <script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+  <script type="text/javascript">
+    var ros = new ROSLIB.Ros({
+      url : 'ws://localhost:9090'
+    });
     
     ros.on('error', function(error) {
       console.log('error:', error);
@@ -19,58 +21,66 @@
       console.log('connection closed');
     });
 
-    ros.connect('ws://localhost:9090');
+    var videoListener = new ROSLIB.Topic({
+      ros : ros,
+      name : '/cv1/output_raw',
+      messageType : 'sensor_msgs/Image'
+    });
+
+    videoListener.subscribe(function(message) {
+      console.log('Received message on ' + videoListener.name + ' : ' + message.data);
+    })
 
     var listener = new ROSLIB.Topic({
-	ros: ros,
-	name: '/NALD_DRONE_LISTENER',
-	messageType: 'std_msgs/String'
+      ros: ros,
+      name: '/NALD_DRONE_LISTENER',
+      messageType: 'std_msgs/String'
     });
 
     var publisherX = new ROSLIB.Topic({
-	ros: ros,
-	name: '/gps_serviceX',
-	messageType: 'std_msgs/Float64'
+      ros: ros,
+      name: '/gps_serviceX',
+      messageType: 'std_msgs/Float64'
     });
     var publisherY = new ROSLIB.Topic({
-	ros: ros,
-	name: '/gps_serviceY',
-	messageType: 'std_msgs/Float64'
+      ros: ros,
+      name: '/gps_serviceY',
+      messageType: 'std_msgs/Float64'
     });
     var publisherZ = new ROSLIB.Topic({
-	ros: ros,
-	name: '/gps_serviceZ',
-	messageType: 'std_msgs/Float64'
+      ros: ros,
+      name: '/gps_serviceZ',
+      messageType: 'std_msgs/Float64'
     });
 
     var gps_json = { x: 0, y: 0, z: 0 };
     //var gps_data = null;
 
     listener.subscribe(function(message) {
-	console.log('Received:', message);
+    console.log('Received:', message);
 
-	var splitted = message.data.split(',');
-	console.log('splitted:', splitted);
-	gps_json.x = parseFloat(splitted[0]);
-	gps_json.y = parseFloat(splitted[1]);
-	gps_json.z = parseFloat(splitted[2]);
-	console.log('gps_json:', gps_json);
+    var splitted = message.data.split(',');
+    console.log('splitted:', splitted);
+    gps_json.x = parseFloat(splitted[0]);
+    gps_json.y = parseFloat(splitted[1]);
+    gps_json.z = parseFloat(splitted[2]);
+    console.log('gps_json:', gps_json);
 
-	publisherX.publish(new ROSLIB.Message({ data: gps_json.x }));
-	publisherY.publish(new ROSLIB.Message({ data: gps_json.y }));
-	publisherZ.publish(new ROSLIB.Message({ data: gps_json.z }));
-	//gps_data = new ROSLIB.Message(gps_json);
-	//publisher.publish(gps_data);
-	console.log('published:', gps_json.x, gps_json.y, gps_json.z);
-	/*
-	publisher.publish(gps_data);
-	console.log('published:', gps_data);
-	*/
-    });
+    publisherX.publish(new ROSLIB.Message({ data: gps_json.x }));
+    publisherY.publish(new ROSLIB.Message({ data: gps_json.y }));
+    publisherZ.publish(new ROSLIB.Message({ data: gps_json.z }));
+    //gps_data = new ROSLIB.Message(gps_json);
+    //publisher.publish(gps_data);
+    console.log('published:', gps_json.x, gps_json.y, gps_json.z);
+    /*
+    publisher.publish(gps_data);
+    console.log('published:', gps_data);
+    */
+      });
 
-    ros.getParams(function(params) {
-	// console.log('ros.getParams::' + params);
-    });
+      ros.getParams(function(params) {
+    // console.log('ros.getParams::' + params);
+      });
 
   </script>
 </head>

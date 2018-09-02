@@ -23,6 +23,31 @@
 	<script>vex.defaultOptions.className = 'vex-theme-os'</script>
 	<link rel="stylesheet" href="/style/vex.css" />
 	<link rel="stylesheet" href="/style/vex-theme-os.css" />
+
+	<!-- roslib -->
+	<script src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+	<script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+	<!-- ros setting -->
+	<script type="text/javascript">
+		var id_num = 0;
+		localStorage.setItem("idNumKey", id_num);
+		var ros = new ROSLIB.Ros({
+			url : 'ws://localhost:9090'
+		});
+		
+		ros.on('error', function(error) {
+			console.log('error:', error);
+		});
+
+		ros.on('connection', function() {
+			console.log('completely connected!');
+		});
+
+		ros.on('close', function() {
+			console.log('connection closed');
+		});
+	</script>
 </head>
 
 <body style="background-color: #606060">
@@ -459,6 +484,9 @@
 
 	<!-- SSH and ROS run -->
 	<script type="text/javascript">
+		var id_num = localStorage.getItem("idNumKey");
+		id_num = parseInt(id_num) + 1;
+		localStorage.setItem("idNumKey", id_num);
 		const Client = require('ssh2').Client;
 		document.getElementById('add-cam').addEventListener('click', function(e) {
 			e.preventDefault();
@@ -499,7 +527,7 @@
 								console.log('STDERR:', data.toString('utf-8'));
 							});
 							// TODO: ROS_MASTER_URI 수정
-							stream.end(`export ROS_MASTER_URI=http://192.168.0.32:11311 && export ROS_IP=${address} && rosrun cv_camera cv_camera_node /cv_camera:=/cv1\nexit`);
+							stream.end(`export ROS_MASTER_URI=http://192.168.0.46:11311 && export ROS_IP=${address} && rosrun cv_camera cv_camera_node /cv_camera:=/cv${id_num}\nexit`);
 						});
 						conn.shell(function(err, stream) {
 							if (err) throw err;
@@ -512,7 +540,7 @@
 								console.log('STDERR:', data.toString('utf-8'));
 							});
 							// TODO: ROS_MASTER_URI 수정
-							stream.end(`ifconfig`);
+							stream.end(`export ROS_MASTER_URI=http://192.168.0.46:11311 && export ROS_IP=${address} && source ~/catkin_ws/devel/setup.bash && rosrun camera_streamer camera_streamer_node input:=/cv${id_num}/image_raw output:=/cv${id_num}/output_raw\nexit`);
 						});
 					}).connect({
 						host: address,
@@ -522,6 +550,15 @@
 					});
 				}
 			});
+			var videoListener = new ROSLIB.Topic({
+				ros : ros,
+				name : '/cv'+ id_num +'/output_raw',
+				messageType : 'sensor_msgs/Image'
+			});
+			videoListener.subscribe(function(message) {
+				console.log('Received message on ' + videoListener.name + ': ' + message.data);
+				videoListener.unsubscribe();
+			})
 		});
 	</script>
 
