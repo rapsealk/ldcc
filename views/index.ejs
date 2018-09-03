@@ -31,7 +31,6 @@
 	<!-- ros setting -->
 	<script type="text/javascript">
 		var id_num = 0;
-		localStorage.setItem("idNumKey", id_num);
 		var ros = new ROSLIB.Ros({
 			url : 'ws://localhost:9090'
 		});
@@ -359,6 +358,96 @@
 			uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
 		}
 
+		// 드론 ROS
+		var mavros1Listener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/mavros/global_position/global',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		let mavros1_lat = 500.0;
+		let mavros1_lon = 500.0;
+		let mavros2_lat = 500.0;
+		let mavros2_lon = 500.0;
+		let mavros3_lat = 500.0;
+		let mavros3_lon = 500.0;
+
+		mavros1Listener.subscribe(function(message) {
+			mavros1_lat = message.latitude;
+			mavros1_lon = message.longitude;
+		});
+
+		var mavros2Listener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/mavros/global_position/global',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		mavros2Listener.subscribe(function(message) {
+			mavros2_lat = message.latitude;
+			mavros2_lon = message.longitude;
+		});
+
+		var mavros3Listener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/mavros/global_position/global',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		mavros3Listener.subscribe(function(message) {
+			mavros3_lat = message.latitude;
+			mavros3_lon = message.longitude;
+		});
+
+		var goalPos = new ROSLIB.Topic({
+			ros : ros,
+			name : '/goal_position',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		var indexListener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/gps_goal_index',
+			messageType : 'std_msgs/Int32'
+		});
+
+		const index = -1;
+
+		indexListener.subscribe(function(message) {
+			index = message.data;
+		});
+
+		function droneMove() {
+			// 잠시 경로 삭제
+			if (polyline !== null) polyline.setMap(null);
+
+			if (markers.length < 1) {
+				vex.dialog.alert('1개 이상의 경유지가 필요합니다.');
+				return;
+			}
+
+			const _upos = uav.getPosition();
+			const startPosition = new daum.maps.LatLng(_upos.getLat(), _upos.getLng());
+			const linepath = markers.map(marker => marker.getPosition());
+			linepath.splice(0, 0, startPosition);
+
+			while (index < markers.length) {
+				const temp = index;
+				var navsatfix = new ROSLIB.Message({
+					latitude : linepath[index].getLat(),
+					longitude : linepath[index].getLng()
+				});
+				goalPos.publish(navsatfix)
+
+				while(temp===index) {
+					continue;
+				}
+			}
+			indexListener.unsubscribe();
+
+			// 드론 위치 UI에 표시
+		}
+
 		// drone move test
 		function moveTest() {
 
@@ -559,14 +648,6 @@
 					});
 				}
 			});
-			var videoListener = new ROSLIB.Topic({
-				ros : ros,
-				name : '/cv'+ id_num +'/output_raw',
-				messageType : 'sensor_msgs/Image'
-			});
-			videoListener.subscribe(function(message) {
-				
-			})
 		});
 	</script>
 
@@ -605,7 +686,7 @@
 										};
 									});
 									*/
-									moveTest();
+									droneMove();
 								}
 							});
 						}
