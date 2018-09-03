@@ -48,6 +48,12 @@
 			console.log('connection closed');
 		});
 	</script>
+
+	<!-- python camera streaming -->
+	<meta name="viewport" content="width=device-width; height=device-height;">
+	<link rel="stylesheet" href="resource://content-accessible/ImageDocument.css">
+	<link rel="stylesheet" href="resource://content-accessible/TopLevelImageDocument.css">
+	<link rel="stylesheet" href="chrome://global/skin/media/TopLevelImageDocument.css">
 </head>
 
 <body style="background-color: #606060">
@@ -156,7 +162,8 @@
 			</nav>
 			<div style="background: #404040;">
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container">
-					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+					<div class="uav-video" style="background: #404040"><img src="http://0.0.0.0:5000/stream" alt="http://0.0.0.0:5000/stream"></div>
+					<!-- <div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://0.0.0.0:5000/stream" type="video/jpg"></video></div> -->
 					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
 					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
 					<div class="uav-map" style="background: #404040">
@@ -556,8 +563,7 @@
 				messageType : 'sensor_msgs/Image'
 			});
 			videoListener.subscribe(function(message) {
-				console.log('Received message on ' + videoListener.name + ': ' + message.data);
-				videoListener.unsubscribe();
+				
 			})
 		});
 	</script>
