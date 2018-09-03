@@ -54,6 +54,9 @@
 	<link rel="stylesheet" href="resource://content-accessible/ImageDocument.css">
 	<link rel="stylesheet" href="resource://content-accessible/TopLevelImageDocument.css">
 	<link rel="stylesheet" href="chrome://global/skin/media/TopLevelImageDocument.css">
+
+	<!-- div grid setting -->
+	<link rel="stylesheet" type="text/css" href="grid_wrapper.css">
 </head>
 
 <body style="background-color: #606060">
@@ -74,7 +77,7 @@
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<!-- Drag n Drop https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#dragstart -->
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
 								<!--svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
 									<polygon points="23 7 16 12 23 17 23 7"/>
 									<rect x="1" y="6" width="15" height="12" rx="2" ry="2"/>
@@ -85,7 +88,7 @@
 								</a-->
 							</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
-								<ul class="nav flex-column mb-2">
+								<ul class="nav flex-column mb-2" id="cam-list">
 									<li class="nav-item">
 										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
 											추가하기
@@ -94,62 +97,59 @@
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
 										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4" style="color:white">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
 											Why Don't You Know
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
 										<a class="nav-link" href="#" value="http://localhost:3000/RollerCoaster.mp4" style="color:white">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
 											Roller Coaster
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
 										<a class="nav-link" href="#" value="http://localhost:3000/LoveU.mp4" style="color:white">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
 											Love U
 										</a>
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">지도</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">지도</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
-								<ul class="nav flex-column mb-2">
+								<ul class="nav flex-column mb-2" id="map-list">
 									<li class="nav-item">
-										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-map" href="#" style="color:white">
 											추가하기
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">경로설정</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">경로설정</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
-								<ul class="nav flex-column mb-2">
+								<ul class="nav flex-column mb-2" id="path-list">
 									<li class="nav-item">
-										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-path" href="#" style="color:white">
 											추가하기
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">뷰어</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">뷰어</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
-								<ul class="nav flex-column mb-2">
+								<ul class="nav flex-column mb-2" id="viewer-list">
 									<li class="nav-item">
-										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-viewer" href="#" style="color:white">
 											추가하기
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid">사용자</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">사용자</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
-								<ul class="nav flex-column mb-2">
+								<ul class="nav flex-column mb-2" id="user-list">
 									<li class="nav-item">
-										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-user" href="#" style="color:white">
 											추가하기
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
@@ -162,12 +162,14 @@
 			</nav>
 			<div style="background: #404040;">
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container">
-					<div class="uav-video" style="background: #404040"><img src="http://0.0.0.0:5000/stream" alt="http://0.0.0.0:5000/stream"></div>
-					<!-- <div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://0.0.0.0:5000/stream" type="video/jpg"></video></div> -->
-					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
-					<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
-					<div class="uav-map" style="background: #404040">
-						<div id="map"></div>
+					<div class="grid_wrapper" id="grid-container">
+						<div class="uav-video" style="background: #404040"><img src="http://0.0.0.0:5000/stream" alt="http://0.0.0.0:5000/stream" style="color: white;"></div>
+						<!-- <div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://0.0.0.0:5000/stream" type="video/jpg"></video></div> -->
+						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+						<div class="uav-map" style="background: #404040">
+							<div id="map"></div>
+						</div>
 					</div>
 				</main>
 			</div>
@@ -472,9 +474,9 @@
 				videosource.src = url;
 				mvideo.appendChild(videosource);
 				magnified.appendChild(mvideo);
-				document.getElementById('main-container').insertBefore(
+				document.getElementById('grid-container').insertBefore(
 					magnified,
-					document.getElementById('main-container').firstChild
+					document.getElementById('grid-container').firstChild
 				);
 				mvideo.load();
 

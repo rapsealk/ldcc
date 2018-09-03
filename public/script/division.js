@@ -5,15 +5,18 @@
  */
 const divisionButtons = document.getElementsByClassName('btn-division');
 const divisions = ['2x2', '3x3', '4x4'];
-const mainContainer = document.getElementById('main-container');
+const mainContainer = document.getElementById('grid-container');
 for (let i = 0; i < divisions.length; i++) {
     document.getElementById(`btn-division-${divisions[i]}`).addEventListener('click', function(e) {
+        mainContainer.style.gridTemplateColumns = `repeat(${i+2}, 1fr)`;
+        mainContainer.style.gridTemplateRows = `repeat(${i+2}, 1fr)`;
+
         let cell = (i + 2);
         let size = Math.floor(100 / cell);
         let childrenNodes = mainContainer.children;
         // let map = childrenNodes[childrenNodes.length-1].cloneNode(true);
         // FIXME: Javascript trick!
-        let map = childrenNodes[childrenNodes.length-1];
+        let map_div = childrenNodes[childrenNodes.length-1];
         mainContainer.children.length = mainContainer.children.length - 1;
         while (mainContainer.hasChildNodes()) mainContainer.removeChild(mainContainer.firstChild);
         let numberOfCells = (cell * cell) - 1;
@@ -40,14 +43,21 @@ for (let i = 0; i < divisions.length; i++) {
             cells[j].addEventListener('drop', drop);
 			cells[j].addEventListener('dragover', allowDrop);
         }
-        mainContainer.appendChild(map);
 
-        map.style.width = `${size}%`;
-        map.style.height = '200px';
-        // let map_width = 1920 * size / 100;
-        // let map_height = 1080 * size / 100;
-        // map.style.width = `${map_width}px`;
-        // map.style.height = `${map_height}px`;
+        let map_width = (mainContainer.offsetWidth - 10 * (i + 1)) / (i + 2);
+        let map_height = map_width * 9 / 16;
+
+        mainContainer.appendChild(map_div);
+
+        map_div.style.width = `${map_width}px`;
+        map_div.style.height = `${map_height}px`;
+        console.log('map_width:', map_width);
+        console.log('map_height:', map_height);
+
+        map = document.getElementById('map');
+
+        map.style.width = `100%`;
+        map.style.height = `100%`;
 
         /*
         <div class="uav-video">
