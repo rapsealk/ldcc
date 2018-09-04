@@ -625,6 +625,7 @@
 					console.log('address:', address);
 
 					const conn = new Client();
+					const ROS_MASTER_URI = 'http://192.168.0.46:11311';
 
 					conn.on('ready', function() {
 						console.log('Client::ready');
@@ -639,7 +640,7 @@
 								console.log('STDERR:', data.toString('utf-8'));
 							});
 							// TODO: ROS_MASTER_URI 수정
-							stream.end(`export ROS_MASTER_URI=http://192.168.0.46:11311 && export ROS_IP=${address} && rosrun cv_camera cv_camera_node /cv_camera:=/cv${id_num}\nexit`);
+							stream.end(`export ROS_MASTER_URI=${ROS_MASTER_URI} && export ROS_IP=${address} && rosrun cv_camera cv_camera_node /cv_camera:=/cv${id_num}\nexit`);
 						});
 						conn.shell(function(err, stream) {
 							if (err) throw err;
@@ -652,7 +653,7 @@
 								console.log('STDERR:', data.toString('utf-8'));
 							});
 							// TODO: ROS_MASTER_URI 수정
-							stream.end(`export ROS_MASTER_URI=http://192.168.0.46:11311 && export ROS_IP=${address} && source ~/catkin_ws/devel/setup.bash && rosrun camera_streamer camera_streamer_node input:=/cv${id_num}/image_raw output:=/cv${id_num}/output_raw\nexit`);
+							stream.end(`export ROS_MASTER_URI=${ROS_MASTER_URI} && export ROS_IP=${address} && source ~/catkin_ws/devel/setup.bash && rosrun camera_streamer camera_streamer_node input:=/cv${id_num}/image_raw output:=/cv${id_num}/output_raw\nexit`);
 						});
 					}).connect({
 						host: address,
@@ -716,7 +717,7 @@
 
 		const menu = Menu.buildFromTemplate(template);
 
-		// Menu.setApplicationMenu(menu);
+		Menu.setApplicationMenu(menu);
 	</script>
 
 	<!-- 드래그 앤 드랍으로 비디오 설정 -->
