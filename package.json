@@ -22,10 +22,6 @@
       "icon": "build/icon.ico",
       "publisherName": "Lotte Data Communication Company"
     },
-    "linux": {
-      "icon": "build/icon.png",
-      "publisherName": "Lotte Data Communication Company"
-    },
     "directories": {
       "buildResources": "resources"
     },

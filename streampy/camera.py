@@ -32,9 +32,10 @@ class VideoCamera(object):
 
     def ros_run(self, conn):
         self.conn = conn
+        uav_number = conn.recv()
         ros = roslibpy.Ros(host='localhost', port=9090)
         ros.on_ready(lambda: print('Is ROS Connected?', ros.is_connected))
-        roslibpy.Topic(ros, '/cv1/output_raw', 'sensor_msgs/Image').subscribe(self.callback)
+        roslibpy.Topic(ros, '/cv{0}/output_raw'.format(uav_number), 'sensor_msgs/Image').subscribe(self.callback)
         ros.run_forever()
 
 if __name__ == '__main__':
