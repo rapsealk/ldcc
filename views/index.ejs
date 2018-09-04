@@ -175,10 +175,10 @@
 			<div style="background: #404040;">
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container">
 					<div class="grid_wrapper" id="grid-container">
-						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 1" style="color: white;"></div>
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 2" style="color: white;"></div>
 						<!-- <div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://0.0.0.0:5000/stream" type="video/jpg"></video></div> -->
 						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 1" style="color: white;"></div>
-						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 1" style="color: white;"></div>
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 3" style="color: white;"></div>
 						<!--
 						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
 						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
@@ -580,29 +580,13 @@
 			return function(e) {
 				let url = e.target.src;
 				console.log('url:', url);
-				/*
-				let url = e.target.childNodes[0].src;
-				const magnified = document.createElement('div');
-				const mvideo = document.createElement('video');
-				mvideo.className = 'video-magnified';
-				mvideo.autoplay = true;
-				mvideo.muted = true;
-				const videosource = document.createElement('source');
-				videosource.type = 'video/mp4';
-				videosource.src = url;
-				mvideo.appendChild(videosource);
-				magnified.appendChild(mvideo);
+				
+				const magnified = createMagnifiedNode(url);
+				
 				document.getElementById('grid-container').insertBefore(
 					magnified,
 					document.getElementById('grid-container').firstChild
 				);
-				mvideo.load();
-
-				// Removal
-				magnified.addEventListener('click', function(e) {
-					e.target.remove();
-				});
-				*/
 			};
 		}
 		for (let i = 0; i < uav_videos.length; i++) {

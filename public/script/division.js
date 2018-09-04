@@ -13,6 +13,18 @@ function createDefaultNode(url) {
 	return videoDiv;
 }
 
+function createMagnifiedNode(url) {
+	const div = document.createElement('div');
+	div.className = 'video-magnified';
+	const img = document.createElement('img');
+	img.src = url;
+	div.appendChild(img);
+	div.addEventListener('click', function(e) {
+		e.target.remove();
+	});
+	return div;
+}
+
 const divisionButtons = document.getElementsByClassName('btn-division');
 const divisions = ['2x2', '3x3', '4x4'];
 const mainContainer = document.getElementById('grid-container');
@@ -105,3 +117,6 @@ for (let i = 0; i < divisions.length; i++) {
 		*/
 	});
 }
+
+// FIXME: trick
+document.getElementById('btn-division-2x2').click();

@@ -33,7 +33,6 @@ div.uav-video, div.uav-map {
     background: #343A40;
 }
 
-div.uav-video > video,
 div.uav-video > img,
 div#map {
     width: 100%;
