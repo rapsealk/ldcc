@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no">
 	<!--link rel="icon" href="https://getbootstrap.com/favicon.ico"-->
 
 	<title>롯데정보통신 드론관제시스템</title>
@@ -11,135 +11,208 @@
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<link rel="stylesheet" type="text/css" href="/style/video.css">
-	<!--link rel="stylesheet" type="text/css" href="/style/default.css"-->
+	<link rel="stylesheet" type="text/css" href="/style/default.css">
 	<link rel="stylesheet" type="text/css" href="/style/accordion.css">
 
 	<!-- Custom styles for this template -->
 	<link href="/style/dashboard.css" rel="stylesheet">
+
+	<!-- Vex -->
+	<script src="/script/vex.combined.min.js"></script>
+	<script>vex.defaultOptions.className = 'vex-theme-os'</script>
+	<link rel="stylesheet" href="/style/vex.css" />
+	<link rel="stylesheet" href="/style/vex-theme-os.css" />
+
+	<!-- roslib -->
+	<script src="http://static.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js"></script>
+	<script src="http://static.robotwebtools.org/roslibjs/current/roslib.min.js"></script>
+
+	<!-- ros setting -->
+	<script type="text/javascript">
+		var id_num = 0;
+		var ros = new ROSLIB.Ros({
+			url : 'ws://localhost:9090'
+		});
+		
+		ros.on('error', function(error) {
+			console.log('error:', error);
+		});
+
+		ros.on('connection', function() {
+			console.log('completely connected!');
+		});
+
+		ros.on('close', function() {
+			console.log('connection closed');
+		});
+	</script>
+
+	<!-- python camera streaming -->
+	<!--meta name="viewport" content="width=device-width; height=device-height;"-->
+	<link rel="stylesheet" href="resource://content-accessible/ImageDocument.css">
+	<link rel="stylesheet" href="resource://content-accessible/TopLevelImageDocument.css">
+	<link rel="stylesheet" href="chrome://global/skin/media/TopLevelImageDocument.css">
+
+	<!-- div grid setting -->
+	<link rel="stylesheet" type="text/css" href="grid_wrapper.css">
 </head>
 
-<body>
-	<nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">LOTTE SMART DRONE VIEWER</a>
+<body style="background-color: #606060">
+	<nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background: #606060;">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" style="background: #606060; border: none">LOTTE SMART DRONE VIEWER</a>
 		<!--input class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search" type="text"-->
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap">
-				<a class="nav-link" href="#">사용자 이름</a>
+				<div class="row">
+					<a class="nav-link" href="#" id="btn-save-division" style="color: white; margin-right: 15px;">분할화면 저장</a>
+					<a class="nav-link" href="#" style="color: white; margin-right: 15px;">ADMIN</a>
+				</div>
 			</li>
 		</ul>
 	</nav>
 
-	<div class="container-fluid bg-dark">
-		<div class="row">
+	<div class="container-fluid bg-dark" style="min-height: 100%;">
+		<div class="row" style="padding-bottom: 2em;">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
-				<div class="sidebar-sticky">
+				<div class="sidebar-sticky" style="background-color: #606060">
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<!-- Drag n Drop https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#dragstart -->
-							<button class="is-accordion">
-								<!--svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-									<polygon points="23 7 16 12 23 17 23 7"/>
-									<rect x="1" y="6" width="15" height="12" rx="2" ry="2"/>
-								</svg-->
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
 								카메라
-								<!--a class="d-flex align-items-center text-muted" href="#">
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-								</a-->
 							</button>
-							<div class="accordion-panel">
-								<ul class="nav flex-column mb-2">
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2" id="cam-list">
 									<li class="nav-item">
-										<a class="nav-link d-flex align-items-center text-muted" href="#">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-cam" href="#" style="color:white">
 											추가하기
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+										<a class="nav-link" href="#" value="http://localhost:3000/img/video_overlay.png" style="color:white">
+											Default Image
+										</a>
+									</li>	
+									<li class="nav-item draggable-item-video" draggable="true">
+										<a class="nav-link" href="#" value="http://localhost:3000/img/video_overlay_p.png" style="color:white">
+											Default Image P
+										</a>
+									</li>	
+									<li class="nav-item draggable-item-video" draggable="true">
+										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4" style="color:white">
 											Why Don't You Know
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/RollerCoaster.mp4">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+										<a class="nav-link" href="#" value="http://localhost:3000/RollerCoaster.mp4" style="color:white">
 											Roller Coaster
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/LoveU.mp4">
-											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+										<a class="nav-link" href="#" value="http://localhost:3000/LoveU.mp4" style="color:white">
 											Love U
 										</a>
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion">지도</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								지도
+							</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2" id="map-list">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-map" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
-							<button class="is-accordion">경로설정</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								경로설정
+							</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2" id="path-list">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-path" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
-							<button class="is-accordion">뷰어</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								뷰어
+							</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2" id="viewer-list">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-viewer" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
-							<button class="is-accordion">사용자</button>
-							<div class="accordion-panel">
-								<p>Lorem ipsum...</p>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								사용자
+							</button>
+							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
+								<ul class="nav flex-column mb-2" id="user-list">
+									<li class="nav-item">
+										<a class="nav-link d-flex align-items-center text-muted" id="add-user" href="#" style="color:white">
+											추가하기
+											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+										</a>
+									</li>
+								</ul>
 							</div>
 						</li>
 					</ul>
 				</div>
 			</nav>
-			<div>
-				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container" style="margin-top: 4px;">
-					<!--div>
-						<video class="video-magnified" autoplay muted>
-							<source src="http://localhost:3000/WhyDon'tYouKnow.mp4" type="video/mp4">
-						</video>
-					</div-->
-					<div class="uav-video">
-						<video autoplay muted>
-							<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-						</video>
-					</div>
-					<div class="uav-video">
-						<video autoplay muted>
-							<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-						</video>
-					</div>
-					<div class="uav-video">
-						<video autoplay muted>
-							<source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4">
-						</video>
-					</div>
-					<div class="uav-map">
-						<div id="map"></div>
+			<div style="background: #404040;">
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container">
+					<div class="grid_wrapper" id="grid-container">
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 2" style="color: white;"></div>
+						<!-- <div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://0.0.0.0:5000/stream" type="video/jpg"></video></div> -->
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 1" style="color: white;"></div>
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 3" style="color: white;"></div>
+						<!--
+						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+						-->
+						<div class="uav-map" style="background: #404040">
+							<div id="map"></div>
+						</div>
 					</div>
 				</main>
 			</div>
 		</div>
 	</div>
 
-	<div class="row" style="background: #343A40; margin-top: 5px;">
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
-			<div class="col-md-4">
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-2x2">2x2</button>
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-3x3">3x3</button>
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-4x4">4x4</button>
+	<footer class="footer" style="margin-top: -2em; height: 1em;">
+		<div class="row" style="background: #404040">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="col-md-4">
+					<button class="btn btn-sm btn-normal btn-division" id="btn-division-2x2"><img src="http://localhost:3000/img/2x2.png" width="30" height="30"/></button>
+					<button class="btn btn-sm btn-normal btn-division" id="btn-division-3x3"><img src="http://localhost:3000/img/3x3.png" width="30" height="30"/></button>
+					<button class="btn btn-sm btn-normal btn-division" id="btn-division-4x4"><img src="http://localhost:3000/img/4x4.png" width="30" height="30"/></button>
+				</div>
 			</div>
 		</div>
-	</div>
+	</footer>
+
+	<!-- Both Electron and Browser -->
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	<!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -166,7 +239,7 @@
 		var uav = new daum.maps.Marker({
 			map: map,
 			position: new daum.maps.LatLng(33.450701, 126.570667),
-			title: 'UAV 1',
+			title: 'UAV 2',
 			image: uavIcon
 		});
 
@@ -176,7 +249,7 @@
 		var follower1 = new daum.maps.Marker({
 			map: map,
 			position: new daum.maps.LatLng(33.450501, 126.570217),
-			title: 'UAV 2',
+			title: 'UAV 1',
 			image: followerIcon
 		});
 		var follower2 = new daum.maps.Marker({
@@ -189,53 +262,461 @@
 		const markers = [];
 	</script>
 
+	<!-- 드론 경로 -->
+	<script type="text/javascript">
+		var polyline = null;
+		function drawPolyline() {
+			if (polyline !== null) {
+				polyline.setMap(null);
+			}
+			const linepath = markers.map(marker => marker.getPosition());
+			linepath.splice(0, 0, uav.getPosition());
+			polyline = new daum.maps.Polyline({
+				path: linepath,
+				strokeWeight: 5,
+				strokeColor: '#FFAE00',
+				strokeOpacity: 0.7,
+				strokeStyle: 'solid'    // 'dash'
+			});
+			polyline.setMap(map);
+		}
+
+		var isMapClickable = false;
+		function onMapClick(mouseEvent) {
+			var latlng = mouseEvent.latLng;
+			var marker = new daum.maps.Marker({
+				position: latlng,
+				draggable: true,
+				clickable: true,
+				map: map
+			});
+			markers.push(marker);
+
+			// Draw Line
+			drawPolyline();
+			
+			// Marker Drag-End Event
+			daum.maps.event.addListener(marker, 'click', function() {
+				// Update Layout
+				const index = markers.indexOf(marker);
+				/* build a DOM (createElement)
+				const formNode = document.createElement("form");
+				// padding not works => '10px'
+				formNode.style.padding = 10;
+				const divNode = document.createElement("div");
+				divNode.className = "form-group";
+				const labelNode = document.createElement("label");
+				labelNode.setAttribute("for", "time-expected");
+				labelNode.innerText = "이동 시간";
+				const inputNode = document.createElement("input");
+				inputNode.type = "number";
+				inputNode.className = "form-control";
+				inputNode.id = "time-expected";
+				inputNode.setAttribute("aria-describedby", "timeHelp");
+				inputNode.placeholder = "5";
+				const smallNode = document.createElement("small");
+				smallNode.id = "timeHelp";
+				smallNode.className = "form-text text-muted";
+				smallNode.innerText = "희망 시간을 입력하세요.(s)";
+				divNode.appendChild(labelNode);
+				divNode.appendChild(inputNode);
+				divNode.appendChild(smallNode);
+				const buttonNode = document.createElement("button");
+				buttonNode.type = "button";
+				buttonNode.className = "btn btn-sm btn-primary";
+				buttonNode.innerText = "업데이트";
+				formNode.appendChild(divNode);
+				formNode.appendChild(buttonNode);
+				*/
+				const infoWindowContent = `
+					<form style="padding: 10px;">
+						<div class="form-group">
+							<label for="time-expected">이동 시간</label>
+							<input type="number" class="form-control" id="time-expected" aria-describedby="timeHelp" placeholder="5">
+							<small id="timeHelp" class="form-text text-muted">희망 시간을 입력하세요.(s)</small>
+						</div>
+						<button type="button" class="btn btn-sm btn-primary">업데이트</button>
+					</form>
+				`;
+				const infoWindow = new daum.maps.InfoWindow({
+					content: infoWindowContent,	// formNode.outerHTML
+					removable: true
+				});
+				infoWindow.open(map, marker);
+			});
+			daum.maps.event.addListener(marker, 'dragend', drawPolyline);
+		}
+
+		function calcAngle(from/*: daum.maps.LatLng*/, to/*: daum.maps.LatLng*/) {
+			const angle = Math.atan2(from.getLng() - to.getLng(), from.getLat() - to.getLat());
+			return (angle * (180 / Math.PI) + 180) % 360;
+		}
+
+		function updateUAVAngle(uav/*: daum.maps.Marker*/, angle) {
+			// Rotate
+			uav.md.style.transform = `rotate(${Math.round(angle)}deg)`;
+		}
+
+		// 드론 ROS
+		var mavros1Listener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/mavros1/global_position/global',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		/*
+		let mavros1_lat = 500.0;
+		let mavros1_lon = 500.0;
+		let mavros2_lat = 500.0;
+		let mavros2_lon = 500.0;
+		let mavros3_lat = 500.0;
+		let mavros3_lon = 500.0;
+		*/
+		let mavros1_pos = { lat: 33.450501, lon: 126.570217 };
+		let mavros2_pos = { lat: 33.450701, lon: 126.570667 };
+		let mavros3_pos = { lat: 33.450501, lon: 126.571117 };
+
+		mavros1Listener.subscribe(function(message) {
+			const { latitude, longitude } = message;
+			const latlng = new daum.maps.LatLng(latitude, longitude);
+			updateUAVAngle(follower1, calcAngle(new daum.maps.LatLng(mavros1_pos.lat, mavros1_pos.lon), latlng));
+			follower1.setPosition(new daum.maps.LatLng(latitude, longitude));
+			mavros1_pos = { lat: latitude, lon: longitude };
+		});
+
+		// 리더
+		var mavros2Listener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/mavros2/global_position/global',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		mavros2Listener.subscribe(function(message) {
+			const { latitude, longitude } = message;
+			const latlng = new daum.maps.LatLng(latitude, longitude);
+			updateUAVAngle(uav, calcAngle(new daum.maps.LatLng(mavros2_pos.lat, mavros2_pos.lon), latlng));
+			uav.setPosition(latlng);
+			mavros2_pos = { lat: latitude, lon: longitude };
+		});
+
+		var mavros3Listener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/mavros3/global_position/global',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		mavros3Listener.subscribe(function(message) {
+			const { latitude, longitude } = message;
+			const latlng = new daum.maps.LatLng(latitude, longitude);
+			updateUAVAngle(follower2, calcAngle(new daum.maps.LatLng(mavros3_pos.lat, mavros3_pos.lon), latlng));
+			follower2.setPosition(new daum.maps.LatLng(latitude, longitude));
+			mavros3_pos = { lat: latitude, lon: longitude };
+		});
+
+		var goalPos = new ROSLIB.Topic({
+			ros : ros,
+			name : '/goal_position',
+			messageType : 'sensor_msgs/NavSatFix'
+		});
+
+		var indexListener = new ROSLIB.Topic({
+			ros : ros,
+			name : '/gps_goal_index',
+			messageType : 'std_msgs/Int32'
+		});
+		
+		var sizePublisher = new ROSLIB.Topic({
+			ros : ros,
+			name : '/gps_mark_size',
+			messageType : 'std_msgs/Int32'
+		});
+
+		const index = -1;
+
+		indexListener.subscribe(function(message) {
+			index = message.data;
+		});
+
+		function droneMove() {
+			// 잠시 경로 삭제
+			if (polyline !== null) polyline.setMap(null);
+
+			if (markers.length < 1) {
+				vex.dialog.alert('1개 이상의 경유지가 필요합니다.');
+				return;
+			}
+
+			var size_message = new ROSLIB.Message({
+				data : markers.length
+			});
+			sizePublisher.publish(size_message);
+
+			const _upos = uav.getPosition();
+			const startPosition = new daum.maps.LatLng(_upos.getLat(), _upos.getLng());
+			const linepath = markers.map(marker => marker.getPosition());
+			linepath.splice(0, 0, startPosition);
+
+			while (index < markers.length) {
+				const temp = index;
+				var navsatfix = new ROSLIB.Message({
+					latitude : linepath[index].getLat(),
+					longitude : linepath[index].getLng(),
+					altitude : 4
+				});
+				goalPos.publish(navsatfix);
+
+				while(temp===index) {
+					continue;
+				}
+			}
+			indexListener.unsubscribe();
+
+			// 드론 위치 UI에 표시
+		}
+
+		// drone move test
+		function moveTest() {
+
+			// 잠시 경로 삭제
+			if (polyline !== null) polyline.setMap(null);
+
+			if (markers.length < 1) {
+				vex.dialog.alert('1개 이상의 경유지가 필요합니다.');
+				return;
+			}
+
+			let index = 0;
+			const goalIndex = markers.length;
+
+			const _upos = uav.getPosition();
+			const startPosition = new daum.maps.LatLng(_upos.getLat(), _upos.getLng());
+
+			const linepath = markers.map(marker => marker.getPosition());
+			linepath.splice(0, 0, startPosition);
+
+			let fpos = linepath[index];
+			let tpos = linepath[index+1];
+
+			fpos = new daum.maps.LatLng(fpos.getLat(), fpos.getLng());
+			tpos = new daum.maps.LatLng(tpos.getLat(), tpos.getLng());
+
+			updateUAVAngle(uav, calcAngle(fpos, tpos));
+
+			let count = 0;
+			let polylines = [];
+
+			const movementInterval = setInterval(() => {
+
+				count += 1;
+
+				if (index == goalIndex) {
+					vex.dialog.alert('Reached to goal!');
+					clearInterval(movementInterval);
+
+					if (polyline !== null) polyline.setMap(map);
+				}
+				const dx = (tpos.getLat() - fpos.getLat()) / 5;
+				const dy = (tpos.getLng() - fpos.getLng()) / 5;
+
+				let upos = uav.getPosition();
+				uav.setPosition(new daum.maps.LatLng(upos.getLat() + dx, upos.getLng() + dy));
+
+				// append: [].splice(index, 0, ELEMENT); (!!do not assign!!)
+				// remove: [].splice(index, count);
+				const linepath1 = linepath.slice(0, index+1);
+				linepath1.splice(0, 0, startPosition);
+				linepath1.push(uav.getPosition());
+				const linepath2 = [uav.getPosition()].concat(linepath.slice(index+1));
+				
+				polylines.forEach(line => line.setMap(null));
+				polylines = [
+					new daum.maps.Polyline({
+						path: linepath1,
+						strokeWeight: 5,
+						strokeColor: '#FFAE00',
+						strokeOpacity: 0.7,
+						strokeStyle: 'solid'
+					}),
+					new daum.maps.Polyline({
+						path: linepath2,
+						strokeWeight: 5,
+						strokeColor: '#FFAE00',
+						strokeOpacity: 0.7,
+						strokeStyle: 'dash'
+					})
+				];
+				polylines.forEach(line => line.setMap(map));
+				// ==============================================================================================================================
+
+				upos = uav.getPosition();
+				if (count == 5) {
+					count = 0;
+				// if (upos.getLat() + Number.EPSILON == tpos.getLat()) {
+					index += 1;
+					fpos = tpos;
+					// 도착했을 때 tpos가 존재하지 않아서 NullPointerException 발생
+					if (index < goalIndex) tpos = linepath[index+1];
+
+					updateUAVAngle(uav, calcAngle(fpos, tpos));
+
+					/*
+					uav.setMap(null);
+					uav = new daum.maps.Marker({
+						map: map,
+						position: new daum.maps.LatLng(fpos.getLat(), fpos.getLng()),
+						title: 'UAV 1',
+						image: uavIcon
+					});
+					markers[0] = uav;
+					*/
+				}
+			}, 1000);
+		}
+	</script>
+
 	<script type="text/javascript">
 		let uav_videos = document.getElementsByClassName('uav-video');
-		let selected_uav_video = null;
-		function setBorderLineOnVideo(index, flag) {
-			uav_videos[index].style.outline = flag ? '2px solid skyblue' : '';
-		}
 		function onVideoClick(index) {
 			return function(e) {
-				/*
-				for (let i = 0; i < 4; i++) {
-					if (i === index) continue;
-					uav_videos[i].setAttribute('selected', false);
-					setBorderLineOnVideo(i, false);
-				}
-				let node = uav_videos[index];
-				selected_uav_video = node;
-				let state = !(node.getAttribute('selected') === 'true');
-				setBorderLineOnVideo(index, state);
-				node.setAttribute('selected', state);
-				*/
-
-				let url = e.target.childNodes[0].src;
-				const magnified = document.createElement('div');
-				const mvideo = document.createElement('video');
-				mvideo.className = 'video-magnified';
-				mvideo.autoplay = true;
-				mvideo.muted = true;
-				const videosource = document.createElement('source');
-				videosource.type = 'video/mp4';
-				videosource.src = url;
-				mvideo.appendChild(videosource);
-				magnified.appendChild(mvideo);
-				document.getElementById('main-container').insertBefore(
+				let url = e.target.src;
+				console.log('url:', url);
+				
+				const magnified = createMagnifiedNode(url);
+				
+				document.getElementById('grid-container').insertBefore(
 					magnified,
-					document.getElementById('main-container').firstChild
+					document.getElementById('grid-container').firstChild
 				);
-				mvideo.load();
-
-				// Removal
-				magnified.addEventListener('click', function(e) {
-					e.target.remove();
-				});
 			};
 		}
 		for (let i = 0; i < uav_videos.length; i++) {
 			uav_videos[i].addEventListener('click', onVideoClick(i));
 		}
+	</script>
+
+	<!-- SSH and ROS run -->
+	<script type="text/javascript">
+		var id_num = localStorage.getItem("idNumKey");
+		id_num = parseInt(id_num) + 1;
+		localStorage.setItem("idNumKey", id_num);
+		const Client = require('ssh2').Client;
+		document.getElementById('add-cam').addEventListener('click', function(e) {
+			e.preventDefault();
+			vex.dialog.open({
+				message: '카메라의 IP 주소를 입력해주세요.',
+				input: `
+					<style>
+						.input {
+							margin: .4rem;
+						}
+					</style>
+					
+					<fieldset class="form-group">
+						<div class="input">
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="text" name="address" placeholder="192.168.0.53" value="192.168.0.58">
+							</div>
+						</div>
+					</fieldset>
+				`,
+				callback: value => {
+					// alert(value);
+					const { address } = value;
+					console.log('address:', address);
+
+					const conn = new Client();
+
+					conn.on('ready', function() {
+						console.log('Client::ready');
+						conn.shell(function(err, stream) {
+							if (err) throw err;
+							stream.on('close', function() {
+								console.log('Stream::close');
+								conn.end();
+							}).on('data', function(data) {
+								console.log('STDOUT:', data.toString('utf-8'));
+							}).stderr.on('data', function(data) {
+								console.log('STDERR:', data.toString('utf-8'));
+							});
+							// TODO: ROS_MASTER_URI 수정
+							stream.end(`export ROS_MASTER_URI=http://192.168.0.46:11311 && export ROS_IP=${address} && rosrun cv_camera cv_camera_node /cv_camera:=/cv${id_num}\nexit`);
+						});
+						conn.shell(function(err, stream) {
+							if (err) throw err;
+							stream.on('close', function() {
+								console.log('Stream::close');
+								conn.end();
+							}).on('data', function(data) {
+								console.log('STDOUT:', data.toString('utf-8'));
+							}).stderr.on('data', function(data) {
+								console.log('STDERR:', data.toString('utf-8'));
+							});
+							// TODO: ROS_MASTER_URI 수정
+							stream.end(`export ROS_MASTER_URI=http://192.168.0.46:11311 && export ROS_IP=${address} && source ~/catkin_ws/devel/setup.bash && rosrun camera_streamer camera_streamer_node input:=/cv${id_num}/image_raw output:=/cv${id_num}/output_raw\nexit`);
+						});
+					}).connect({
+						host: address,
+						port: 22,
+						username: 'uavcam',
+						password: '111111'
+					});
+				}
+			});
+		});
+	</script>
+
+	<!-- Menu -->
+	<script type="text/javascript">
+		const { remote } = require('electron');
+		const { Menu } = remote;
+
+		const template = [
+			{
+				label: '설정',
+				submenu: [
+					{
+						label: '경로설정',
+						accelerator: 'Ctrl+Shift+P',
+						click: (item, focusedWindow) => {
+							if (isMapClickable) daum.maps.event.removeListener(map, 'click', onMapClick);
+							else daum.maps.event.addListener(map, 'click', onMapClick);
+							isMapClickable = !isMapClickable;
+						}
+					},
+					{
+						label: '경로전달',
+						accelerator: 'Ctrl+Shift+R',
+						click: (item, focusedWindow) => {
+							vex.dialog.confirm({
+								message: '경로를 전달하시겠습니까?',
+								callback: value => {
+									if (value === false) return;
+									/*
+									const path = markers.map(marker => {
+										const position = marker.getPosition();
+										return {
+											latitude: position.getLat(),
+											longitude: position.getLng()
+										};
+									});
+									*/
+									droneMove();
+								}
+							});
+						}
+					},
+					// TODO: debug/non release
+					{
+						label: '개발자도구',
+						role: 'toggleDevTools'
+					}
+				]
+			}
+		];
+
+		const menu = Menu.buildFromTemplate(template);
+
+		// Menu.setApplicationMenu(menu);
 	</script>
 
 	<!-- 드래그 앤 드랍으로 비디오 설정 -->
@@ -249,9 +730,11 @@
 		function drop(e) {
 			e.preventDefault();
 			var url = e.dataTransfer.getData("src");
-			e.target.childNodes[0].src = url;
-			e.target.load();
-			e.target.play();
+			console.log('dropped url:', url);
+			e.target.src = url;
+			// e.target.childNodes[0].src = url;
+			// e.target.load();
+			// e.target.play();
 		}
 		let draggableItemVideo = document.getElementsByClassName('draggable-item-video');
 		for (let i = 0; i < draggableItemVideo.length; i++) {
@@ -267,5 +750,133 @@
 	<script type="text/javascript" src="/script/division.js"></script>
 
 	<script type="text/javascript" src="/script/accordion.js"></script>
+
+	<!-- 분할화면 저장 -->
+	<script type="text/javascript">
+		const viewerList = document.getElementById('viewer-list');
+		const btnSaveDivision = document.getElementById('btn-save-division');
+		btnSaveDivision.addEventListener('click', e => {
+			e.preventDefault();
+			vex.dialog.open({
+				message: '뷰어 프리셋을 저장할 이름을 입력해주세요.',
+				input: `
+					<style>
+						.input {
+							margin: .4rem;
+						}
+					</style>
+					
+					<fieldset class="form-group">
+						<div class="input">
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="text" name="viewer_name" placeholder="기본 뷰어 01" value="">
+							</div>
+						</div>
+					</fieldset>
+				`,
+				callback: value => {
+					console.log('value:', value);
+					const { viewer_name } = value;
+					if (!viewer_name) return vex.dialog.alert('이름을 입력하세요.');
+
+					const preset = [];
+					const gridContainer = document.getElementById('grid-container');
+					const gridContainerChildrenCount = gridContainer.children.length;
+					for (let i = 0; i < gridContainerChildrenCount; i++) {
+						console.log(`gridContainer[${i}]: ${gridContainer.children[i]}`);
+						const child = gridContainer.children[i];
+						const className = child.className;
+						if (className === 'uav-video') {
+							// img 태그에 유효
+							console.log('url:', child.firstChild.src);
+							preset.push({
+								type: 'video', url: child.firstChild.src
+							});
+						} else if (className === 'uav-map') {
+							preset.push({
+								type: 'map'
+							});
+						}
+					}
+					console.log('preset:', preset);
+
+					const navItem = document.createElement('li');
+					navItem.className = 'nav-item';
+					const navLink = document.createElement('a');
+					navLink.className = 'nav-link';
+					navLink.href = '#';
+					navLink.value = 'VALUE_OF_VIEWER_PRESET';
+					navLink.style = 'color: white;';
+					navLink.innerText = viewer_name;
+					navItem.appendChild(navLink);
+					viewerList.appendChild(navItem);
+
+					navItem.addEventListener('click', function(e) {
+						// TODO
+						let childrenNodes = mainContainer.children;
+						let map_div = childrenNodes[childrenNodes.length-1];
+						mainContainer.children.length = mainContainer.children.length - 1;
+						while (mainContainer.hasChildNodes()) mainContainer.removeChild(mainContainer.firstChild);
+						const size = Math.sqrt(preset.length);
+						let numberOfCells = preset.length - 1;
+						for (let i = 0; i < numberOfCells; i++) {
+							console.log('preset[i].url:', preset[i].url);
+							mainContainer.appendChild(createDefaultNode(preset[i].url));
+							console.log('mainContainer.children.length:', mainContainer.children.length);
+						}
+						let cells = document.getElementsByClassName('uav-video');
+						for (let j = 0; j < numberOfCells; j++) {
+							cells[j].style.width = `${Math.floor(100 / size)}%`;
+							cells[j].style.height = `${Math.floor(100/ size)}%`;
+
+							cells[j].addEventListener('click', onVideoClick(j));
+							cells[j].addEventListener('drop', drop);
+							cells[j].addEventListener('dragover', allowDrop);
+						}
+
+						map_div.style.width = `${Math.floor(100/ size)}%`;
+						//map_div.style.height = `${Math.floor(100/ size)}%`;
+
+						map_div.style.maxHeight = `${$('.uav-video').css('height')}`;
+						map_div.style.height = `1024px`;
+
+						mainContainer.appendChild(map_div);
+						
+						document.getElementById('map').style.maxHeight = `${$('.uav-video').css('height')}`;
+						document.getElementById('map').style.height = `100%`;
+
+						map.relayout();
+					});
+
+					// Update
+					const accordion = document.getElementsByClassName('is-accordion')[3];
+					accordion.click();
+					accordion.click();
+				}
+			});
+		});
+	</script>
+
+	<!-- Geolocation -->
+	<script type="text/javascript">
+		console.log('navigator.geolocation:', navigator.geolocation);
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(position => {
+				const lat = position.coords.latitude;
+				const lon = position.coords.longitude;
+				console.log(`lat: ${lat}, lon: ${lon}`);
+
+				/* Move map to current location
+				map.setCenter(
+					new daum.maps.LatLng(lat, lon)
+				);
+				*/
+			}, error => {
+				console.log('error:', error);
+			});
+		} else {
+			console.log('navigator.geolocation not found.');
+		}
+	</script>
 </body>
 </html>

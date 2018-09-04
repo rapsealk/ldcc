@@ -1,4 +1,4 @@
-const { app, BrowserWindow/*, session*/ } = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -18,45 +18,12 @@ function createWindow() {
         titleBarStyle: 'hidden',
         icon: path.join(__dirname, 'assets/icons/lotte.ico')
     });
-    // win = new BrowserWindow({ width: 1920, height: 1080 });
 
-    // Request Permissions (https://electronjs.org/docs/all#sessetpermissionrequesthandlerhandler)
-    /*
-    session.fromPartition('geolocation').setPermissionRequestHandler((webContents, permission, callback) => {
-        if (// webContents.getURL() === 'some-host' &&
-            permission === 'geolocation') {
-            return callback(false);
-        }
-        callback(true); // permissionGranted
-    });
-    */
-    /*
-    win.webContents.session.setCertificateVerifyProc((request, callback) => {
-        const { hostname } = request;
-        console.log('hostname:', hostname);
-    });
-    */
-   
     win.loadURL(url.format({
-        // pathname: 'localhost:3000/login',
-        // pathname: 'localhost:3000/option.html',
-        pathname: 'localhost:3000',//pathname: 'localhost:3000/newmain.html',
-        // pathname: 'localhost:3000/index.html',
+        pathname: 'localhost:3000',
         protocol: 'http:',
         slashes: true
     }));
-    /*
-    win.loadURL(url.format({
-        pathname: path.join(__dirname, 'index.html'),
-        protocol: 'file:',
-        slashes: true,
-        
-        // resizable: false,
-        webPreferences: {
-            webSecurity: false
-        }
-    }));
-    */
 
     // win.on('resize', () => win.maximize());
 

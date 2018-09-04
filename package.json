@@ -22,10 +22,6 @@
       "icon": "build/icon.ico",
       "publisherName": "Lotte Data Communication Company"
     },
-    "linux": {
-      "icon": "build/icon.png",
-      "publisherName": "Lotte Data Communication Company"
-    },
     "directories": {
       "buildResources": "resources"
     },
@@ -34,7 +30,7 @@
     ]
   },
   "devDependencies": {
-    "electron": "^2.0.7",
+    "electron": "^2.0.8",
     "electron-builder": "^20.28.1"
   },
   "dependencies": {
@@ -42,6 +38,7 @@
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
-    "morgan": "^1.9.0"
+    "morgan": "^1.9.0",
+    "ssh2": "^0.6.1"
   }
 }
