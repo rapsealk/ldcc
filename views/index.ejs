@@ -240,7 +240,7 @@
 		var uav = new daum.maps.Marker({
 			map: map,
 			position: new daum.maps.LatLng(33.450701, 126.570667),
-			title: 'UAV 1',
+			title: 'UAV 2',
 			image: uavIcon
 		});
 
@@ -250,7 +250,7 @@
 		var follower1 = new daum.maps.Marker({
 			map: map,
 			position: new daum.maps.LatLng(33.450501, 126.570217),
-			title: 'UAV 2',
+			title: 'UAV 1',
 			image: followerIcon
 		});
 		var follower2 = new daum.maps.Marker({
@@ -361,42 +361,57 @@
 		// 드론 ROS
 		var mavros1Listener = new ROSLIB.Topic({
 			ros : ros,
-			name : '/mavros/global_position/global',
+			name : '/mavros1/global_position/global',
 			messageType : 'sensor_msgs/NavSatFix'
 		});
 
+		/*
 		let mavros1_lat = 500.0;
 		let mavros1_lon = 500.0;
 		let mavros2_lat = 500.0;
 		let mavros2_lon = 500.0;
 		let mavros3_lat = 500.0;
 		let mavros3_lon = 500.0;
+		*/
+		let mavros1_pos = { lat: 33.450501, lon: 126.570217 };
+		let mavros2_pos = { lat: 33.450701, lon: 126.570667 };
+		let mavros3_pos = { lat: 33.450501, lon: 126.571117 };
 
 		mavros1Listener.subscribe(function(message) {
-			mavros1_lat = message.latitude;
-			mavros1_lon = message.longitude;
+			const { latitude, longitude } = message;
+			const latlng = new daum.maps.LatLng(latitude, longitude);
+			updateUAVAngle(follower1, calcAngle(new daum.maps.LatLng(mavros1_pos.lat, mavros1_pos.lon), latlng));
+			follower1.setPosition(new daum.maps.LatLng(latitude, longitude));
+			mavros1_pos = { lat: latitude, lon: longitude };
 		});
 
+		// 리더
 		var mavros2Listener = new ROSLIB.Topic({
 			ros : ros,
-			name : '/mavros/global_position/global',
+			name : '/mavros2/global_position/global',
 			messageType : 'sensor_msgs/NavSatFix'
 		});
 
 		mavros2Listener.subscribe(function(message) {
-			mavros2_lat = message.latitude;
-			mavros2_lon = message.longitude;
+			const { latitude, longitude } = message;
+			const latlng = new daum.maps.LatLng(latitude, longitude);
+			updateUAVAngle(uav, calcAngle(new daum.maps.LatLng(mavros2_pos.lat, mavros2_pos.lon), latlng));
+			uav.setPosition(latlng);
+			mavros2_pos = { lat: latitude, lon: longitude };
 		});
 
 		var mavros3Listener = new ROSLIB.Topic({
 			ros : ros,
-			name : '/mavros/global_position/global',
+			name : '/mavros3/global_position/global',
 			messageType : 'sensor_msgs/NavSatFix'
 		});
 
 		mavros3Listener.subscribe(function(message) {
-			mavros3_lat = message.latitude;
-			mavros3_lon = message.longitude;
+			const { latitude, longitude } = message;
+			const latlng = new daum.maps.LatLng(latitude, longitude);
+			updateUAVAngle(follower2, calcAngle(new daum.maps.LatLng(mavros3_pos.lat, mavros3_pos.lon), latlng));
+			follower2.setPosition(new daum.maps.LatLng(latitude, longitude));
+			mavros3_pos = { lat: latitude, lon: longitude };
 		});
 
 		var goalPos = new ROSLIB.Topic({
