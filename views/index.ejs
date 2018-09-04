@@ -3,7 +3,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, shrink-to-fit=no">
 	<!--link rel="icon" href="https://getbootstrap.com/favicon.ico"-->
 
 	<title>롯데정보통신 드론관제시스템</title>
@@ -11,8 +11,7 @@
 	<!-- Bootstrap core CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 
-	<link rel="stylesheet" type="text/css" href="/style/video.css">
-	<!--link rel="stylesheet" type="text/css" href="/style/default.css"-->
+	<link rel="stylesheet" type="text/css" href="/style/default.css">
 	<link rel="stylesheet" type="text/css" href="/style/accordion.css">
 
 	<!-- Custom styles for this template -->
@@ -49,7 +48,7 @@
 	</script>
 
 	<!-- python camera streaming -->
-	<meta name="viewport" content="width=device-width; height=device-height;">
+	<!--meta name="viewport" content="width=device-width; height=device-height;"-->
 	<link rel="stylesheet" href="resource://content-accessible/ImageDocument.css">
 	<link rel="stylesheet" href="resource://content-accessible/TopLevelImageDocument.css">
 	<link rel="stylesheet" href="chrome://global/skin/media/TopLevelImageDocument.css">
@@ -64,27 +63,23 @@
 		<!--input class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search" type="text"-->
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap">
-				<a class="nav-link" href="#" style="color: white">ADMIN</a>
+				<div class="row">
+					<a class="nav-link" href="#" id="btn-save-division" style="color: white; margin-right: 15px;">분할화면 저장</a>
+					<a class="nav-link" href="#" style="color: white; margin-right: 15px;">ADMIN</a>
+				</div>
 			</li>
 		</ul>
 	</nav>
 
-	<div class="container-fluid bg-dark">
-		<div class="row">
+	<div class="container-fluid bg-dark" style="min-height: 100%;">
+		<div class="row" style="padding-bottom: 2em;">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar">
 				<div class="sidebar-sticky" style="background-color: #606060">
 					<ul class="nav flex-column mb-2">
 						<li class="nav-item">
 							<!-- Drag n Drop https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations#dragstart -->
 							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
-								<!--svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-									<polygon points="23 7 16 12 23 17 23 7"/>
-									<rect x="1" y="6" width="15" height="12" rx="2" ry="2"/>
-								</svg-->
 								카메라
-								<!--a class="d-flex align-items-center text-muted" href="#">
-									<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
-								</a-->
 							</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
 								<ul class="nav flex-column mb-2" id="cam-list">
@@ -94,6 +89,16 @@
 											<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-plus-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>
 										</a>
 									</li>
+									<li class="nav-item draggable-item-video" draggable="true">
+										<a class="nav-link" href="#" value="http://localhost:3000/img/video_overlay.png" style="color:white">
+											Default Image
+										</a>
+									</li>	
+									<li class="nav-item draggable-item-video" draggable="true">
+										<a class="nav-link" href="#" value="http://localhost:3000/img/not_found.png" style="color:white">
+											Not found
+										</a>
+									</li>	
 									<li class="nav-item draggable-item-video" draggable="true">
 										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4" style="color:white">
 											Why Don't You Know
@@ -111,7 +116,9 @@
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">지도</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								지도
+							</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
 								<ul class="nav flex-column mb-2" id="map-list">
 									<li class="nav-item">
@@ -122,7 +129,9 @@
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">경로설정</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								경로설정
+							</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
 								<ul class="nav flex-column mb-2" id="path-list">
 									<li class="nav-item">
@@ -133,7 +142,9 @@
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">뷰어</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								뷰어
+							</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
 								<ul class="nav flex-column mb-2" id="viewer-list">
 									<li class="nav-item">
@@ -144,7 +155,9 @@
 									</li>
 								</ul>
 							</div>
-							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">사용자</button>
+							<button class="is-accordion" style="background-color: #404040; border-color: #606060; border-style: solid; text-align: left;">
+								사용자
+							</button>
 							<div class="accordion-panel" style="background-color: #404040; border-color: #606060; border-style: solid">
 								<ul class="nav flex-column mb-2" id="user-list">
 									<li class="nav-item">
@@ -162,10 +175,14 @@
 			<div style="background: #404040;">
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4" id="main-container">
 					<div class="grid_wrapper" id="grid-container">
-						<div class="uav-video" style="background: #404040"><img src="http://0.0.0.0:5000/stream" alt="http://0.0.0.0:5000/stream" style="color: white;"></div>
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 1" style="color: white;"></div>
 						<!-- <div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://0.0.0.0:5000/stream" type="video/jpg"></video></div> -->
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 1" style="color: white;"></div>
+						<div class="uav-video" style="background: #404040"><img src="/img/video_overlay.png" alt="UAV 1" style="color: white;"></div>
+						<!--
 						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
 						<div class="uav-video" style="background: #404040"><video autoplay muted style="background: #404040"><source src="http://localhost:3000/RollerCoaster.mp4" type="video/mp4"></video></div>
+						-->
 						<div class="uav-map" style="background: #404040">
 							<div id="map"></div>
 						</div>
@@ -175,45 +192,27 @@
 		</div>
 	</div>
 
-	<div class="row" style="background: #404040">
-		<div class="col-md-2"></div>
-		<div class="col-md-8">
-			<div class="col-md-4">
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-2x2" style="
-				border-top-width: 0px;
-				border-left-width: 0px;
-				border-bottom-width: 0px;
-				border-right-width: 0px;
-				padding-bottom: 0px;
-				padding-left: 0px;
-				padding-right: 0px;
-				padding-top: 0px;"><img src="http://localhost:3000/img/2x2.png" width="30" height="30"/></button>
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-3x3" style="
-				border-top-width: 0px;
-				border-left-width: 0px;
-				border-bottom-width: 0px;
-				border-right-width: 0px;
-				padding-bottom: 0px;
-				padding-left: 0px;
-				padding-right: 0px;
-				padding-top: 0px;"><img src="http://localhost:3000/img/3x3.png" width="30" height="30"/></button>
-				<button class="btn btn-sm btn-normal btn-division" id="btn-division-4x4" style="
-				border-top-width: 0px;
-				border-left-width: 0px;
-				border-bottom-width: 0px;
-				border-right-width: 0px;
-				padding-bottom: 0px;
-				padding-left: 0px;
-				padding-right: 0px;
-				padding-top: 0px;"><img src="http://localhost:3000/img/4x4.png" width="30" height="30"/></button>
+	<footer class="footer" style="margin-top: -2em; height: 1em;">
+		<div class="row" style="background: #404040">
+			<div class="col-md-2"></div>
+			<div class="col-md-8">
+				<div class="col-md-4">
+					<button class="btn btn-sm btn-normal btn-division" id="btn-division-2x2"><img src="http://localhost:3000/img/2x2.png" width="30" height="30"/></button>
+					<button class="btn btn-sm btn-normal btn-division" id="btn-division-3x3"><img src="http://localhost:3000/img/3x3.png" width="30" height="30"/></button>
+					<button class="btn btn-sm btn-normal btn-division" id="btn-division-4x4"><img src="http://localhost:3000/img/4x4.png" width="30" height="30"/></button>
+				</div>
 			</div>
 		</div>
-	</div>
+	</footer>
+
+	<!-- Both Electron and Browser -->
+	<script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
 
 	<!-- Bootstrap core JavaScript
 	================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	<!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 
@@ -579,6 +578,9 @@
 		let uav_videos = document.getElementsByClassName('uav-video');
 		function onVideoClick(index) {
 			return function(e) {
+				let url = e.target.src;
+				console.log('url:', url);
+				/*
 				let url = e.target.childNodes[0].src;
 				const magnified = document.createElement('div');
 				const mvideo = document.createElement('video');
@@ -600,6 +602,7 @@
 				magnified.addEventListener('click', function(e) {
 					e.target.remove();
 				});
+				*/
 			};
 		}
 		for (let i = 0; i < uav_videos.length; i++) {
@@ -729,7 +732,7 @@
 
 		const menu = Menu.buildFromTemplate(template);
 
-		Menu.setApplicationMenu(menu);
+		// Menu.setApplicationMenu(menu);
 	</script>
 
 	<!-- 드래그 앤 드랍으로 비디오 설정 -->
@@ -743,9 +746,11 @@
 		function drop(e) {
 			e.preventDefault();
 			var url = e.dataTransfer.getData("src");
-			e.target.childNodes[0].src = url;
-			e.target.load();
-			e.target.play();
+			console.log('dropped url:', url);
+			e.target.src = url;
+			// e.target.childNodes[0].src = url;
+			// e.target.load();
+			// e.target.play();
 		}
 		let draggableItemVideo = document.getElementsByClassName('draggable-item-video');
 		for (let i = 0; i < draggableItemVideo.length; i++) {
@@ -761,6 +766,99 @@
 	<script type="text/javascript" src="/script/division.js"></script>
 
 	<script type="text/javascript" src="/script/accordion.js"></script>
+
+	<!-- 분할화면 저장 -->
+	<script type="text/javascript">
+		const viewerList = document.getElementById('viewer-list');
+		const btnSaveDivision = document.getElementById('btn-save-division');
+		btnSaveDivision.addEventListener('click', e => {
+			e.preventDefault();
+			vex.dialog.open({
+				message: '뷰어 프리셋을 저장할 이름을 입력해주세요.',
+				input: `
+					<style>
+						.input {
+							margin: .4rem;
+						}
+					</style>
+					
+					<fieldset class="form-group">
+						<div class="input">
+							<div class="custom-control custom-radio custom-control-inline">
+								<input type="text" name="viewer_name" placeholder="기본 뷰어 01" value="">
+							</div>
+						</div>
+					</fieldset>
+				`,
+				callback: value => {
+					console.log('value:', value);
+					const { viewer_name } = value;
+					if (!viewer_name) return vex.dialog.alert('이름을 입력하세요.');
+
+					const preset = [];
+					const gridContainer = document.getElementById('grid-container');
+					const gridContainerChildrenCount = gridContainer.children.length;
+					for (let i = 0; i < gridContainerChildrenCount; i++) {
+						console.log(`gridContainer[${i}]: ${gridContainer.children[i]}`);
+						const child = gridContainer.children[i];
+						const className = child.className;
+						if (className === 'uav-video') {
+							// img 태그에 유효
+							console.log('url:', child.firstChild.src);
+							preset.push({
+								type: 'video', url: child.firstChild.src
+							});
+						} else if (className === 'uav-map') {
+							preset.push({
+								type: 'map'
+							});
+						}
+					}
+					console.log('preset:', preset);
+
+					const navItem = document.createElement('li');
+					navItem.className = 'nav-item';
+					const navLink = document.createElement('a');
+					navLink.className = 'nav-link';
+					navLink.href = '#';
+					navLink.value = 'VALUE_OF_VIEWER_PRESET';
+					navLink.style = 'color: white;';
+					navLink.innerText = viewer_name;
+					navItem.appendChild(navLink);
+					viewerList.appendChild(navItem);
+
+					navItem.addEventListener('click', function(e) {
+						// TODO
+						let childrenNodes = mainContainer.children;
+						let map_div = childrenNodes[childrenNodes.length-1];
+						mainContainer.children.length = mainContainer.children.length - 1;
+						while (mainContainer.hasChildNodes()) mainContainer.removeChild(mainContainer.firstChild);
+						const size = Math.sqrt(preset.length);
+						let numberOfCells = preset.length - 1;
+						for (let i = 0; i < numberOfCells; i++) {
+							console.log('preset[i].url:', preset[i].url);
+							mainContainer.appendChild(createDefaultNode(preset[i].url));
+							console.log('mainContainer.children.length:', mainContainer.children.length);
+						}
+						let cells = document.getElementsByClassName('uav-video');
+						for (let j = 0; j < numberOfCells; j++) {
+							cells[j].style.width = `${Math.floor(100 / size)}%`;
+							cells[j].style.height = `${Math.floor(100/ size)}%`;
+
+							cells[j].addEventListener('click', onVideoClick(j));
+							cells[j].addEventListener('drop', drop);
+							cells[j].addEventListener('dragover', allowDrop);
+						}
+					});
+
+					// Update
+					const accordion = document.getElementsByClassName('is-accordion')[3];
+					accordion.click();
+					accordion.click();
+				}
+			});
+		});
+	</script>
 
 	<!-- Geolocation -->
 	<script type="text/javascript">
