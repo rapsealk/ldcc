@@ -95,8 +95,8 @@
 										</a>
 									</li>	
 									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/img/not_found.png" style="color:white">
-											Not found
+										<a class="nav-link" href="#" value="http://localhost:3000/img/video_overlay_p.png" style="color:white">
+											Default Image P
 										</a>
 									</li>	
 									<li class="nav-item draggable-item-video" draggable="true">
@@ -833,6 +833,19 @@
 							cells[j].addEventListener('drop', drop);
 							cells[j].addEventListener('dragover', allowDrop);
 						}
+
+						map_div.style.width = `${Math.floor(100/ size)}%`;
+						//map_div.style.height = `${Math.floor(100/ size)}%`;
+
+						map_div.style.maxHeight = `${$('.uav-video').css('height')}`;
+						map_div.style.height = `1024px`;
+
+						mainContainer.appendChild(map_div);
+						
+						document.getElementById('map').style.maxHeight = `${$('.uav-video').css('height')}`;
+						document.getElementById('map').style.height = `100%`;
+
+						map.relayout();
 					});
 
 					// Update
