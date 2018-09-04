@@ -410,6 +410,12 @@
 			name : '/gps_goal_index',
 			messageType : 'std_msgs/Int32'
 		});
+		
+		var sizePublisher = new ROSLIB.Topic({
+			ros : ros,
+			name : '/gps_mark_size',
+			messageType : 'std_msgs/Int32'
+		});
 
 		const index = -1;
 
@@ -426,6 +432,11 @@
 				return;
 			}
 
+			var size_message = new ROSLIB.Message({
+				data : markers.length
+			});
+			sizePublisher.publish(size_message);
+
 			const _upos = uav.getPosition();
 			const startPosition = new daum.maps.LatLng(_upos.getLat(), _upos.getLng());
 			const linepath = markers.map(marker => marker.getPosition());
@@ -435,9 +446,10 @@
 				const temp = index;
 				var navsatfix = new ROSLIB.Message({
 					latitude : linepath[index].getLat(),
-					longitude : linepath[index].getLng()
+					longitude : linepath[index].getLng(),
+					altitude : 4
 				});
-				goalPos.publish(navsatfix)
+				goalPos.publish(navsatfix);
 
 				while(temp===index) {
 					continue;
