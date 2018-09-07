@@ -54,7 +54,15 @@ div#map {
 
 #logo {
     position: absolute;
-    right: 5px;
+    width: 32px;
+    height: 32px;
+    left: 8px;
+    z-index: 9;
+}
+
+#ci {
+    position: absolute;
+    right: 36px;
     bottom: 5px;
     z-index: 9;
 }

@@ -49,17 +49,22 @@
 
 	<!-- python camera streaming -->
 	<!--meta name="viewport" content="width=device-width; height=device-height;"-->
+	<!--
 	<link rel="stylesheet" href="resource://content-accessible/ImageDocument.css">
 	<link rel="stylesheet" href="resource://content-accessible/TopLevelImageDocument.css">
 	<link rel="stylesheet" href="chrome://global/skin/media/TopLevelImageDocument.css">
+	-->
 
 	<!-- div grid setting -->
-	<link rel="stylesheet" type="text/css" href="grid_wrapper.css">
+	<!--
+	<link rel="stylesheet" type="text/css" href="/style/grid_wrapper.css">
+	-->
 </head>
 
 <body style="background-color: #606060">
 	<nav class="navbar navbar-dark fixed-top flex-md-nowrap p-0 shadow" style="background: #606060;">
-		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" style="background: #606060; border: none">LOTTE SMART DRONE VIEWER</a>
+		<img id="logo" src="/img/icon.png">
+		<a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#" style="background: #606060; border: none; left: 32px; font-weight: bolder;">LOTTE SMART DRONE VIEWER</a>
 		<!--input class="form-control form-control-dark w-100" placeholder="Search" aria-label="Search" type="text"-->
 		<ul class="navbar-nav px-3">
 			<li class="nav-item text-nowrap">
@@ -90,28 +95,23 @@
 										</a>
 									</li>
 									<li class="nav-item draggable-item-video" draggable="true">
+										<a class="nav-link" href="#" value="http://localhost:8080/stream?topic=/cv1/output_raw" style="color:white">
+											Leader
+										</a>
+									</li>
+									<li class="nav-item draggable-item-video" draggable="true">
+										<a class="nav-link" href="#" value="http://localhost:8080/stream?topic=/cv2/output_raw" style="color:white">
+											Follower
+										</a>
+									</li>
+									<li class="nav-item draggable-item-video" draggable="true">
 										<a class="nav-link" href="#" value="http://localhost:3000/img/video_overlay.png" style="color:white">
 											Default Image
 										</a>
 									</li>	
 									<li class="nav-item draggable-item-video" draggable="true">
 										<a class="nav-link" href="#" value="http://localhost:3000/img/video_overlay_p.png" style="color:white">
-											Default Image P
-										</a>
-									</li>	
-									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/WhyDon'tYouKnow.mp4" style="color:white">
-											Why Don't You Know
-										</a>
-									</li>
-									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/RollerCoaster.mp4" style="color:white">
-											Roller Coaster
-										</a>
-									</li>
-									<li class="nav-item draggable-item-video" draggable="true">
-										<a class="nav-link" href="#" value="http://localhost:3000/LoveU.mp4" style="color:white">
-											Love U
+											Default Image 2
 										</a>
 									</li>
 								</ul>
@@ -189,6 +189,11 @@
 					</div>
 				</main>
 			</div>
+		</div>
+
+		<!-- logo -->
+		<div id="ci">
+			<img src="/img/lotte_dc_ci.png">
 		</div>
 	</div>
 
@@ -431,7 +436,8 @@
 			messageType : 'std_msgs/Int32'
 		});
 
-		const index = -1;
+		// const index = -1;
+		var index = 0;
 
 		indexListener.subscribe(function(message) {
 			index = message.data;
@@ -454,10 +460,11 @@
 			const _upos = uav.getPosition();
 			const startPosition = new daum.maps.LatLng(_upos.getLat(), _upos.getLng());
 			const linepath = markers.map(marker => marker.getPosition());
-			linepath.splice(0, 0, startPosition);
+			// linepath.splice(0, 0, startPosition);
 
 			while (index < markers.length) {
 				const temp = index;
+				/*
 				var navsatfix = new ROSLIB.Message({
 					latitude : linepath[index].getLat(),
 					longitude : linepath[index].getLng(),
@@ -468,6 +475,8 @@
 				while(temp===index) {
 					continue;
 				}
+				*/
+				index += 1;
 			}
 			indexListener.unsubscribe();
 
@@ -599,7 +608,7 @@
 		var id_num = localStorage.getItem("idNumKey");
 		id_num = parseInt(id_num) + 1;
 		localStorage.setItem("idNumKey", id_num);
-		const Client = require('ssh2').Client;
+		// const Client = require('ssh2').Client;
 		document.getElementById('add-cam').addEventListener('click', function(e) {
 			e.preventDefault();
 			vex.dialog.open({
@@ -614,7 +623,7 @@
 					<fieldset class="form-group">
 						<div class="input">
 							<div class="custom-control custom-radio custom-control-inline">
-								<input type="text" name="address" placeholder="192.168.0.53" value="192.168.0.58">
+								<input type="text" name="address" placeholder="192.168.0.53">
 							</div>
 						</div>
 					</fieldset>
@@ -624,6 +633,25 @@
 					const { address } = value;
 					console.log('address:', address);
 
+					const li = document.createElement('li');
+					li.className = 'nav-item draggable-item-video';
+					li.draggable = true;
+					const a = document.createElement('a');
+					a.className = 'nav-link';
+					a.href = '#';
+					// TODO: Address
+					const vl = 'http://localhost:3000/img/video_overlay.png';
+					a.setAttribute('value', vl);
+					a.style = 'color: white';
+					a.innerText = address;
+					li.appendChild(a);
+					document.getElementById('cam-list').appendChild(li);
+
+					const accordion = document.getElementsByClassName('is-accordion')[0];
+					accordion.click();
+					accordion.click();
+
+					/*
 					const conn = new Client();
 					const ROS_MASTER_URI = 'http://192.168.0.46:11311';
 
@@ -661,6 +689,7 @@
 						username: 'uavcam',
 						password: '111111'
 					});
+					*/
 				}
 			});
 		});
@@ -730,6 +759,7 @@
 		}
 		function drop(e) {
 			e.preventDefault();
+			// if (e.srcElement.tagName === 'IMG') return;
 			var url = e.dataTransfer.getData("src");
 			console.log('dropped url:', url);
 			e.target.src = url;
@@ -867,11 +897,10 @@
 				const lon = position.coords.longitude;
 				console.log(`lat: ${lat}, lon: ${lon}`);
 
-				/* Move map to current location
+				// Move map to current location
 				map.setCenter(
 					new daum.maps.LatLng(lat, lon)
 				);
-				*/
 			}, error => {
 				console.log('error:', error);
 			});
