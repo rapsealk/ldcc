@@ -1,0 +1,1 @@
+raspivid -t 9999999 -h 600 -w 800 -vf -hf -fps 30 -o - | nc -l -p 5001
